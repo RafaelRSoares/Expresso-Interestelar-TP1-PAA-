@@ -49,9 +49,11 @@ void imprimeMapa(quadrante Mapa[][COLUNAS]);
 void imprimeMapaAdm(quadrante Mapa[][COLUNAS]);
 
 void setQuadranteNula(quadrante* celula);
-void setQuadranteRua(quadrante* celula,int i, int j);
+void setQuadranteRua(quadrante* celula, int i, int j);
+void setQuadranteCruzamento(quadrante Mapa[][COLUNAS], int i, int j);
 
-void setMapa(quadrante Mapa[][COLUNAS],nave* Nave);
+
+void setMapa(quadrante Mapa[][COLUNAS], nave* Nave);
 
 
 

@@ -26,10 +26,10 @@ void imprimeMapaAdm(quadrante Mapa[][COLUNAS]){
                 printf("%c",Mapa[i][j].Tipo);    
                 break;
             case '-':
-                printf("%c",Mapa[i][j].Tipo);            
+                printf("%d",Mapa[i][j].Rua.CursoRua[0].Acesso);            
                 break;
             case '|':
-                printf("%c",Mapa[i][j].Tipo);    
+                printf("%d",Mapa[i][j].Rua.CursoRua[0].Acesso);    
                 break;
             case '+':
                 printf("%c",Mapa[i][j].Tipo);    
@@ -75,34 +75,49 @@ void setQuadranteRua(quadrante* celula,int i, int j){
 
 }
 
+void setQuadranteCruzamento(quadrante Mapa[][COLUNAS], int i, int j){
+    switch (Mapa[i][j].Tipo)
+    {
+    case '+':
+        
+        //sobrou nada pro betinha
+    
+        break;
+    
+    default:
+        break;
+    }
+}
+
+
 void setMapa(quadrante Mapa[][COLUNAS],nave* Nave){
     for (int i = 0; i < LINHAS; i++){
         for (int j = 0; j < COLUNAS; j++){
             switch (Mapa[i][j].Tipo)
             {
             case 'X':
-                printf("X\n");
                 setNave(Nave,i,j);    
                 break;            
             case 'P':
-                printf("P\n");
+
                 break;
             case 'F':
-                printf("F\n");
+
                 break;
             case '-':
-                printf("-\n");
-                setQuadranteRua(&Mapa[j][i],i,j);
+                setQuadranteRua(&Mapa[i][j],i,j);
                 break;
             case '|':
-                printf("|\n");
-                setQuadranteRua(&Mapa[j][i],i,j);
+                setQuadranteRua(&Mapa[i][j],i,j);
                 break;
             case '+':
+
                 printf("+\n");
                 break;
+            case '.':
+                setQuadranteNula(&Mapa[i][j]);
+                break;
             default:
-                printf(".\n");
                 setQuadranteNula(&Mapa[i][j]);
                 break;
             }
