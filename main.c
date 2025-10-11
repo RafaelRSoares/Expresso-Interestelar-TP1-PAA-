@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "nave.h"
 #include "mapa.h"
 #define STRING 20
 
 
 int main(){
-    printf("Digite o nome do arquivo: ");
+    //printf("Digite o nome do arquivo: ");
     char nome[STRING];
-    scanf("%s", nome);
+    //scanf("%s", nome);
+    strcpy(nome,"arquivo.txt");
+
 
     FILE* arqEntrada;
     arqEntrada = fopen(nome, "r");
@@ -19,18 +20,22 @@ int main(){
         return 0;
     }
 
-    nave NovaNave; 
+    nave Endurance; 
     
-    fscanf(arqEntrada,"%d %d %d", &NovaNave.Durabilidade, &NovaNave.DanoPorSetor, &NovaNave.AumentoPorPeca);
+    fscanf(arqEntrada,"%d %d %d", &Endurance.Durabilidade, &Endurance.DanoPorSetor, &Endurance.AumentoPorPeca);
     fscanf(arqEntrada, "%d %d", &LINHAS, &COLUNAS);
 
-    char NovoMapa[LINHAS][COLUNAS];
+    quadrante Mapa[LINHAS][COLUNAS];
 
     int i, j;
     for(i = 0; i < LINHAS; i++){
         for(j = 0; j < COLUNAS; j++){
-            fscanf(arqEntrada, "%c", &NovoMapa[i][j]);
+            fscanf(arqEntrada, " %c", &Mapa[i][j].Tipo);
         }
     }
+    fclose(arqEntrada);
+    setMapa(Mapa,&Endurance);
+    imprimeNave(&Endurance);
+    imprimeMapaAdm(Mapa);
 
 }
