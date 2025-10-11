@@ -3,6 +3,7 @@
 #include <string.h>
 #include "nave.h"
 #include "mapa.h"
+#include "lista.h"
 #define STRING 20
 
 
