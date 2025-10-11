@@ -35,7 +35,9 @@ int main(){
         }
     }
     fclose(arqEntrada);
+
     setMapa(Mapa,&Endurance);
+    
     imprimeNave(&Endurance);
     imprimeMapaAdm(Mapa);
 

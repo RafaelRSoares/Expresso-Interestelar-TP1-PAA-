@@ -31,13 +31,13 @@ typedef struct {
         }Rua;
         
         struct {
-            curso Caminhos[QUANTIDADECAMINHOSCRUZAMENTO];
+            curso CursoCrusamento[QUANTIDADECAMINHOSCRUZAMENTO];
             short Peca;
             short Saida;
         }Cruzamento;
         
         struct {
-            curso Caminhos[QUANTIDADECAMINHOSESPECIAL];
+            curso CaminhosEspecial[QUANTIDADECAMINHOSESPECIAL];
             short Peca;
             short Saida;
         }Especial;
@@ -51,10 +51,9 @@ void imprimeMapaAdm(quadrante Mapa[][COLUNAS]);
 void setQuadranteNula(quadrante* celula);
 void setQuadranteRua(quadrante* celula, int i, int j);
 void setQuadranteCruzamento(quadrante Mapa[][COLUNAS], int i, int j);
-
+void setQuadranteDeInteresse(quadrante Mapa[][COLUNAS], int i, int j); 
 
 void setMapa(quadrante Mapa[][COLUNAS], nave* Nave);
-
 
 
 #endif
