@@ -17,26 +17,26 @@ void imprimeMapaAdm(quadrante Mapa[][COLUNAS]){
             switch (Mapa[i][j].Tipo)
             {
             case 'X': 
-                printf("[%d][%d] Tipo: %c| Saida: %d|\n",i,j,Mapa[i][j].Tipo);
+                printf("[%d][%d] Tipo: %c/ Saida: %d/\n",i,j,Mapa[i][j].Tipo);
                 break;            
             case 'P':
-                printf("[%d][%d] Tipo: %c|\n",i,j,Mapa[i][j].Tipo);
+                printf("[%d][%d] Tipo: %c/\n",i,j,Mapa[i][j].Tipo);
                 break;
             case 'F':
-                printf("[%d][%d] Tipo: %c|\n",i,j,Mapa[i][j].Tipo);
+                printf("[%d][%d] Tipo: %c/\n",i,j,Mapa[i][j].Tipo);
                 break;
             case '-':
-                printf("[%d][%d] Tipo: %c| Peca: %d| Saida: %d| Curso: [%d][%d] | [%d][%d]\n",i,j,Mapa[i][j].Tipo,Mapa[i][j].Rua.Peca,Mapa[i][j].Rua.Saida,Mapa[i][j].Rua.CursoRua[0].Caminho,Mapa[i][j].Rua.CursoRua[0].Acesso,Mapa[i][j].Rua.CursoRua[1].Caminho,Mapa[i][j].Rua.CursoRua[1].Acesso);
+                printf("[%d][%d] Tipo: %c/ Peca: %d/ Saida: %d/ Curso: [%d][%d] / [%d][%d]\n",i,j,Mapa[i][j].Tipo,Mapa[i][j].Rua.Peca,Mapa[i][j].Rua.Saida,Mapa[i][j].Rua.CursoRua[0].Caminho,Mapa[i][j].Rua.CursoRua[0].Acesso,Mapa[i][j].Rua.CursoRua[1].Caminho,Mapa[i][j].Rua.CursoRua[1].Acesso);
                 break;
             case '|':
-                printf("[%d][%d] Tipo: %c| Peca: %d| Saida: %d| Curso: [%d][%d] | [%d][%d]\n",i,j,Mapa[i][j].Tipo,Mapa[i][j].Rua.Peca,Mapa[i][j].Rua.Saida,Mapa[i][j].Rua.CursoRua[0].Caminho,Mapa[i][j].Rua.CursoRua[0].Acesso,Mapa[i][j].Rua.CursoRua[1].Caminho,Mapa[i][j].Rua.CursoRua[1].Acesso);
+                printf("[%d][%d] Tipo: %c/ Peca: %d/ Saida: %d/ Curso: [%d][%d] / [%d][%d]\n",i,j,Mapa[i][j].Tipo,Mapa[i][j].Rua.Peca,Mapa[i][j].Rua.Saida,Mapa[i][j].Rua.CursoRua[0].Caminho,Mapa[i][j].Rua.CursoRua[0].Acesso,Mapa[i][j].Rua.CursoRua[1].Caminho,Mapa[i][j].Rua.CursoRua[1].Acesso);
                 break;
             case '+':
-                printf("[%d][%d] Tipo: %c| Peca: %d| Saida: %d|\n",i,j,Mapa[i][j].Tipo,Mapa[i][j].Cruzamento.Peca,Mapa[i][j].Cruzamento.Saida);
-                printf("Curso: [%d][%d] | [%d][%d] | [%d][%d] | [%d][%d]\n",Mapa[i][j].Cruzamento.CursoCrusamento[0].Caminho,Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso,Mapa[i][j].Cruzamento.CursoCrusamento[1].Caminho,Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso,Mapa[i][j].Cruzamento.CursoCrusamento[2].Caminho,Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso,Mapa[i][j].Cruzamento.CursoCrusamento[3].Caminho,Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso);
+                printf("[%d][%d] Tipo: %c/ Peca: %d/ Saida: %d/\n",i,j,Mapa[i][j].Tipo,Mapa[i][j].Cruzamento.Peca,Mapa[i][j].Cruzamento.Saida);
+                printf("Curso: [%d][%d] / [%d][%d] | [%d][%d] | [%d][%d]\n",Mapa[i][j].Cruzamento.CursoCrusamento[0].Caminho,Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso,Mapa[i][j].Cruzamento.CursoCrusamento[1].Caminho,Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso,Mapa[i][j].Cruzamento.CursoCrusamento[2].Caminho,Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso,Mapa[i][j].Cruzamento.CursoCrusamento[3].Caminho,Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso);
                 break;
             case '.':
-                printf("[%d][%d] Tipo: %c| Direcao: %d|\n ",i,j,Mapa[i][j].Tipo,Mapa[i][j].Nula.Caminho);
+                printf("[%d][%d] Tipo: %c/ Direcao: %d/\n ",i,j,Mapa[i][j].Tipo,Mapa[i][j].Nula.Caminho);
                 break;
             default:
                 break;
@@ -201,87 +201,165 @@ void setQuadranteDeInteresse(quadrante Mapa[][COLUNAS], int i, int j){
             }
         }
         if (count == 2){//pode ser uma rua ou "curva"
-            if ((((Mapa[i - 1][j].Tipo != Nulo && Mapa[i][j + 1].Tipo != Nulo) && (Mapa[i + 1][j].Tipo == Nulo && Mapa[i][j - 1].Tipo == Nulo))
-                && (Mapa[i - 1][j].Tipo != Nulo && Mapa[i][j + 1].Tipo == Nulo) && (Mapa[i + 1][j].Tipo == Nulo && Mapa[i][j - 1].Tipo != Nulo)) &&
-                ((Mapa[i - 1][j].Tipo == Nulo && Mapa[i][j + 1].Tipo == Nulo) && (Mapa[i + 1][j].Tipo != Nulo && Mapa[i][j - 1].Tipo != Nulo)
-                && (Mapa[i - 1][j].Tipo == Nulo && Mapa[i][j + 1].Tipo != Nulo) && (Mapa[i + 1][j].Tipo != Nulo && Mapa[i][j - 1].Tipo == Nulo)))
-            {
-                Mapa[i][j].Tipo = '+';
-                setQuadranteCruzamento(Mapa,i,j);
-                if (AuxTipo == 'P')
-                    Mapa[i][j].Cruzamento.Peca = TRUE;
-                else if (AuxTipo == 'F')
-                    Mapa[i][j].Cruzamento.Saida == TRUE;        
+            if (Mapa[i - 1][j].Tipo != '.' && Mapa[i + 1][j].Tipo != '.'){
+                Mapa[i][j].Tipo = '|';
+                setQuadranteRua(&Mapa[i][j],i,j);
+                if (AuxTipo == 'P'){
+                    Mapa[i][j].Rua.Peca = TRUE;
+                    Mapa[i][j].Rua.Saida = FALSE;
+                }
+                else if (AuxTipo == 'F'){
+                    Mapa[i][j].Rua.Saida = TRUE;
+                    Mapa[i][j].Rua.Peca = FALSE;
+                }
+                else if (AuxTipo == 'X'){
+                    Mapa[i][j].Rua.Peca = FALSE;
+                    Mapa[i][j].Rua.Saida = FALSE;
+                }
+            }
+            else if (Mapa[i][j + 1].Tipo != '.' && Mapa[i][j - 1].Tipo != '.'){
+                Mapa[i][j].Tipo = '-';
+                setQuadranteRua(&Mapa[i][j],i,j);
+                if (AuxTipo == 'P'){
+                    Mapa[i][j].Rua.Peca = TRUE;
+                    Mapa[i][j].Rua.Saida = FALSE;
+                }
+                else if (AuxTipo == 'F'){
+                    Mapa[i][j].Rua.Saida = TRUE;
+                    Mapa[i][j].Rua.Peca = FALSE;
+                }
+                else if (AuxTipo == 'X'){
+                    Mapa[i][j].Rua.Peca = FALSE;
+                    Mapa[i][j].Rua.Saida = FALSE;
+                }
             }
             
-            if (Mapa[i - 1][j].Tipo != '.')
-                Mapa[i][j].Tipo = '|';
-            else
-                Mapa[i][j].Tipo = '-';
-            
-                setQuadranteRua(&Mapa[i][j],i,j);
-            if (AuxTipo == 'P')
-                Mapa[i][j].Rua.Peca = TRUE;
-            else if (AuxTipo == 'F')
-                Mapa[i][j].Rua.Saida == TRUE;
-            
+            if (((Mapa[i - 1][j].Tipo == '.' || Mapa[i + 1][j].Tipo == '.') && (Mapa[i - 1][j].Tipo != Mapa[i + 1][j].Tipo)) ||
+                ((Mapa[i][j - 1].Tipo == '.' || Mapa[i][j + 1].Tipo == '.') && (Mapa[i][j - 1].Tipo != Mapa[i][j + 1].Tipo)))
+            {    
+                Mapa[i][j].Tipo = '+';
+                setQuadranteCruzamento(Mapa,i,j);
+                if (AuxTipo == 'P'){
+                    Mapa[i][j].Cruzamento.Peca = TRUE;
+                    Mapa[i][j].Cruzamento.Saida = FALSE;
+                } 
+                else if (AuxTipo == 'F'){
+                    Mapa[i][j].Cruzamento.Saida = TRUE;
+                    Mapa[i][j].Cruzamento.Peca = FALSE;
+                }
+                else if (AuxTipo == 'X'){
+                    Mapa[i][j].Cruzamento.Peca = FALSE;
+                    Mapa[i][j].Cruzamento.Saida = FALSE;
+                }
+            }
+             
         }
         else if (count == 3 || count == 4){
             Mapa[i][j].Tipo = '+';
             setQuadranteCruzamento(Mapa,i,j);
-            if (AuxTipo == 'P')
+            if (AuxTipo == 'P'){
                 Mapa[i][j].Cruzamento.Peca = TRUE;
-            else if (AuxTipo == 'F')
-                Mapa[i][j].Cruzamento.Saida == TRUE;
+                Mapa[i][j].Cruzamento.Saida = FALSE;
+            } 
+            else if (AuxTipo == 'F'){
+                Mapa[i][j].Cruzamento.Saida = TRUE;
+                Mapa[i][j].Cruzamento.Peca = FALSE;
+            }
+            else if (AuxTipo == 'X'){
+                Mapa[i][j].Cruzamento.Peca = FALSE;
+                Mapa[i][j].Cruzamento.Saida = FALSE;
+            }
         }
     }   
+
     else if (((i == 0 && j == 0) || (i == 0 && j == COLUNAS - 1)) || ((i == LINHAS - 1 && j == 0) || (i == LINHAS - 1 && j == COLUNAS - 1))){
         //Se estao nas quinas da matriz é um Cruzamento
         Mapa[i][j].Tipo = '+';
         setQuadranteCruzamento(Mapa,i,j);
-        if (AuxTipo == 'P')
+        if (AuxTipo == 'P'){
             Mapa[i][j].Cruzamento.Peca = TRUE;
-        else if (AuxTipo == 'F')
-            Mapa[i][j].Cruzamento.Saida == TRUE;
+            Mapa[i][j].Cruzamento.Saida = FALSE;
+        } 
+        else if (AuxTipo == 'F'){
+            Mapa[i][j].Cruzamento.Saida = TRUE;
+            Mapa[i][j].Cruzamento.Peca = FALSE;
+        }
+        else if (AuxTipo == 'X'){
+            Mapa[i][j].Cruzamento.Peca = FALSE;
+            Mapa[i][j].Cruzamento.Saida = FALSE;
+        }
     }
+
     else{//se estao nas boras da matriz
         //caso seja um cruzamento +
         if ((i == 0 && Mapa[i + 1][j].Tipo != '.') || (i == LINHAS - 1 && Mapa[i - 1][j].Tipo !='.')){
             Mapa[i][j].Tipo = '+';
             setQuadranteCruzamento(Mapa,i,j);
-            if (AuxTipo == 'P')
+            if (AuxTipo == 'P'){
                 Mapa[i][j].Cruzamento.Peca = TRUE;
-            else if (AuxTipo == 'F')
-                Mapa[i][j].Cruzamento.Saida == TRUE;
+                Mapa[i][j].Cruzamento.Saida = FALSE;
+            } 
+            else if (AuxTipo == 'F'){
+                Mapa[i][j].Cruzamento.Saida = TRUE;
+                Mapa[i][j].Cruzamento.Peca = FALSE;
+            }
+            else if (AuxTipo == 'X'){
+                Mapa[i][j].Cruzamento.Peca = FALSE;
+                Mapa[i][j].Cruzamento.Saida = FALSE;
+            }
         }
+        else if ((i == 0 && Mapa[i + 1][j].Tipo == '.') || (i == LINHAS - 1 && Mapa[i - 1][j].Tipo =='.')){
+            Mapa[i][j].Tipo = '|';
+            setQuadranteRua(&Mapa[i][j],i,j);
+            if (AuxTipo == 'P'){
+                Mapa[i][j].Rua.Peca = TRUE;
+                Mapa[i][j].Rua.Saida = FALSE;
+            }
+            else if (AuxTipo == 'F'){
+                Mapa[i][j].Rua.Saida = TRUE;
+                Mapa[i][j].Rua.Peca = FALSE;
+            }
+            else if (AuxTipo == 'X'){
+                Mapa[i][j].Rua.Peca = FALSE;
+                Mapa[i][j].Rua.Saida = FALSE;
+            }
+        }
+
+        //caso seja um cruzamento +
         else if ((j == 0 && Mapa[i][j + 1].Tipo != '.') || (j == COLUNAS - 1 && Mapa[i][j - 1].Tipo != '.')){
             Mapa[i][j].Tipo = '+';
             setQuadranteCruzamento(Mapa,i,j);
-            if (AuxTipo == 'P')
+            if (AuxTipo == 'P'){
                 Mapa[i][j].Cruzamento.Peca = TRUE;
-            else if (AuxTipo == 'F')
-                Mapa[i][j].Cruzamento.Saida == TRUE;
+                Mapa[i][j].Cruzamento.Saida = FALSE;
+            } 
+            else if (AuxTipo == 'F'){
+                Mapa[i][j].Cruzamento.Saida = TRUE;
+                Mapa[i][j].Cruzamento.Peca = FALSE;
+            }
+            else if (AuxTipo == 'X'){
+                Mapa[i][j].Cruzamento.Peca = FALSE;
+                Mapa[i][j].Cruzamento.Saida = FALSE;
+            }
         }
-    }
-    // else{
-    //     if ((Mapa[i + 1][j].Tipo != '.' || Mapa[i - 1][j].Tipo != '.') || (Mapa[i][j - 1].Tipo != '.' || Mapa[i][j + 1].Tipo != '.')){
-    //         setQuadranteCruzamento(Mapa,i,j);
-    //         if (Mapa[i][j].Tipo == 'P')
-    //             Mapa[i][j].Cruzamento.Peca = TRUE;
-    //         else if (Mapa[i][j].Tipo == 'F')
-    //             Mapa[i][j].Cruzamento.Saida == TRUE;
-    //     }
-    //     else{
-    //         setQuadranteRua(&Mapa[i][j],i,j);
-    //         if (Mapa[i][j].Tipo == 'P')
-    //             Mapa[i][j].Rua.Peca = TRUE;
-    //         else if (Mapa[i][j].Tipo == 'F')
-    //             Mapa[i][j].Rua.Saida == TRUE;
-                
-    //     }
-        
-    // }
+        else if ((j == 0 && Mapa[i][j + 1].Tipo == '.') || (j == COLUNAS - 1 && Mapa[i][j - 1].Tipo == '.')){
+            Mapa[i][j].Tipo = '-';
+            setQuadranteRua(&Mapa[i][j],i,j);
+            if (AuxTipo == 'P'){
+                Mapa[i][j].Rua.Peca = TRUE;
+                Mapa[i][j].Rua.Saida = FALSE;
+            }
+            else if (AuxTipo == 'F'){
+                Mapa[i][j].Rua.Saida = TRUE;
+                Mapa[i][j].Rua.Peca = FALSE;
+            }
+            else if (AuxTipo == 'X'){
+                Mapa[i][j].Rua.Peca = FALSE;
+                Mapa[i][j].Rua.Saida = FALSE;
+            }
+        }
 
+    }
 }
 
 void setMapa(quadrante Mapa[][COLUNAS],nave* Nave){
