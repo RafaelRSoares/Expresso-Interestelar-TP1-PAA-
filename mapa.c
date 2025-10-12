@@ -45,6 +45,7 @@ void imprimeMapaAdm(quadrante Mapa[][COLUNAS]){
     }
 }
 
+
 void setQuadranteNula(quadrante* celula){
     celula->Nula.Caminho = Nulo;
 }
@@ -397,5 +398,37 @@ void setMapa(quadrante Mapa[][COLUNAS],nave* Nave){
                 break;
             }
         }
+    }
+}
+
+int verificaQuadrante(quadrante* celula){
+    switch (celula->Tipo)
+    {
+    case '-':
+        return 1;
+    case '|':
+        return 1;
+    case '+':
+        return 2;    
+    default:
+        return -1;
+        break;
+    }
+}
+
+int inverteDirecao(direcao Direcao){
+    switch (Direcao)
+    {
+    case Norte:
+        return Sul;
+    case Sul:
+        return Norte;
+    case Leste:
+        return Oeste;
+    case Oeste:
+        return Leste;
+    default:
+        return Nulo;
+        break;
     }
 }

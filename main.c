@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "mapa.h"
-#include "lista.h"
+
+#include "backtracking.h"
 #define STRING 20
 
 
@@ -10,7 +10,7 @@ int main(){
     //printf("Digite o nome do arquivo: ");
     char nome[STRING];
     //scanf("%s", nome);
-    strcpy(nome,"arquivo.txt");
+    strcpy(nome,"arquivo2.txt");
 
 
     FILE* arqEntrada;
@@ -34,11 +34,23 @@ int main(){
             fscanf(arqEntrada, " %c", &Mapa[i][j].Tipo);
         }
     }
+
     fclose(arqEntrada);
 
+    Percurso percurso;
+    
+    inicializarPercurso(&percurso);
     setMapa(Mapa,&Endurance);
     
-    imprimeNave(&Endurance);
     imprimeMapaAdm(Mapa);
+    imprimeNave(&Endurance);
+    printf("======================================================\n");
 
+    printf("\n%d\n\n",movimentar(Mapa,&Endurance,&percurso,Nulo));
+
+    printf("======================================================\n");
+    imprimirLista(&percurso);
+    imprimeNave(&Endurance);
+    //imprimeMapaAdm(Mapa);
+    return 0;
 }

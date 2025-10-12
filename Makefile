@@ -1,2 +1,2 @@
-build:	main.c mapa.c nave.c
-	gcc main.c mapa.c nave.c -o ARQ && .\ARQ
+build:	main.c mapa.c nave.c lista.c backtracking.c
+	gcc main.c mapa.c nave.c lista.c backtracking.c -o ARQ && .\ARQ

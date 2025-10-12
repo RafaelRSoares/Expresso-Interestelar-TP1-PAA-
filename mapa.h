@@ -45,6 +45,7 @@ typedef struct {
     };
 } quadrante;
 
+
 void imprimeMapa(quadrante Mapa[][COLUNAS]);
 void imprimeMapaAdm(quadrante Mapa[][COLUNAS]);
 
@@ -55,5 +56,11 @@ void setQuadranteDeInteresse(quadrante Mapa[][COLUNAS], int i, int j);
 
 void setMapa(quadrante Mapa[][COLUNAS], nave* Nave);
 
+int inverteDirecao(direcao Direcao);
+
+int verificaQuadrante(quadrante* celula);
+//return -1 é ripo nulo
+// return 1 é tipo rua
+//return 2 é tipo cruzamento
 
 #endif

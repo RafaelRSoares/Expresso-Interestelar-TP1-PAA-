@@ -6,13 +6,14 @@ void inicializarPercurso(Percurso* lista){
     lista->Primeiro->Prox = NULL;
 }
 
-void inserePercurso(Percurso* lista, int linha, int coluna, int durabilidade, int pecasRestantes){
+void inserePercurso(Percurso* lista, int linha, int coluna, int durabilidade, int pecasRestantes, short Consertado){
     lista->Ultimo->Prox = (Apontador) malloc(sizeof(Informacoes));
     lista->Ultimo = lista->Ultimo->Prox;
     lista->Ultimo->Linha = linha;
     lista->Ultimo->Coluna = coluna;
     lista->Ultimo->Durabilidade = durabilidade;
     lista->Ultimo->PecasRestantes = pecasRestantes;
+    lista->Ultimo->Consertado = Consertado;
     lista->Ultimo->Prox = NULL;
 }
 

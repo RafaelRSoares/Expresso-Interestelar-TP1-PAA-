@@ -16,3 +16,12 @@ void setNave(nave* Nave,int Linha,int Coluna){
     Nave->QuantidadePeca = 0;
     Nave->Consertado = FALSE;
 }
+
+int verificaNave(nave* Nave){
+    if (Nave->QuantidadePeca >= 4)
+        Nave->Consertado = TRUE;
+    
+    if (Nave->Durabilidade < 1)
+        return 0;
+    return 1;
+}
