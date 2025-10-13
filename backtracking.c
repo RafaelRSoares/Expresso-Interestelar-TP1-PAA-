@@ -1,4 +1,10 @@
 #include "backtracking.h"
+//modo analise
+#ifdef ANALISE
+int totalChamadas = 0;
+int nivelMaximo = 0;
+#endif
+
 
 void atualizaNave(nave* Nave, Informacoes* infos){
     Nave->PossicaoLinha = infos->Linha;
@@ -114,6 +120,16 @@ int movimentar(quadrante Mapa[][COLUNAS], nave* Nave,Percurso* lista,direcao Dir
     printf("Chamanda movimentar\n");
     printf("Nave\n");
     imprimeNave(Nave);
+
+//modo analise
+#ifdef ANALISE
+    static int nivelAtual = 0;
+    totalChamadas++;
+    nivelAtual++;
+    if (nivelAtual > nivelMaximo)
+        nivelMaximo = nivelAtual;
+#endif
+
     /*Modifica a possicao da nave*/
     switch (DirecaoAnterior)
     {
@@ -143,17 +159,24 @@ int movimentar(quadrante Mapa[][COLUNAS], nave* Nave,Percurso* lista,direcao Dir
     int ColunaNave = Nave->PossicaoColuna;
     printf("LinNave %d ColNave %d\n",LinhaNave,ColunaNave);
     /*verifica que tipo de quadrante ele esta*/
+     int resultado;
+
     switch (verificaQuadrante(&Mapa[LinhaNave][ColunaNave]))
     {
-    case 1:// Tipo Rua
-       return percorreRua(Mapa,&Mapa[LinhaNave][ColunaNave],Nave,lista,DirecaoAnterior);
-
-    case 2:// Tipo Cruzamento
-        return percorreCruzamento(Mapa,&Mapa[LinhaNave][ColunaNave],Nave,lista,DirecaoAnterior);
-
-    default: //deu ruim
-        return 1;
+    case 1:
+        resultado = percorreRua(Mapa, &Mapa[LinhaNave][ColunaNave], Nave, lista, DirecaoAnterior);
+        break;
+    case 2:
+        resultado = percorreCruzamento(Mapa, &Mapa[LinhaNave][ColunaNave], Nave, lista, DirecaoAnterior);
+        break;
+    default:
+        resultado = 1;
+        break;
     }
-    
 
+#ifdef ANALISE
+    nivelAtual--;
+#endif
+
+    return resultado;
 }

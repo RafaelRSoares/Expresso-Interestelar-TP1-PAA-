@@ -5,6 +5,12 @@
 #include "backtracking.h"
 #define STRING 20
 
+//#define ANALISE
+
+#ifdef ANALISE
+extern int totalChamadas;
+extern int nivelMaximo;
+#endif
 
 int main(){
     //printf("Digite o nome do arquivo: ");
@@ -20,7 +26,7 @@ int main(){
         printf("Erro ao ler o arquivo.");
         return 0;
     }
-
+    //nave do filme "Interestelar", pareceu que caberia bem
     nave Endurance; 
     
     fscanf(arqEntrada,"%d %d %d", &Endurance.Durabilidade, &Endurance.DanoPorSetor, &Endurance.AumentoPorPeca);
@@ -52,5 +58,13 @@ int main(){
     imprimirLista(&percurso);
     imprimeNave(&Endurance);
     //imprimeMapaAdm(Mapa);
+
+    #ifdef ANALISE
+    printf("\n=================== MODO DE ANALISE ===================\n");
+    printf("Total de chamadas recursivas: %d\n", totalChamadas);
+    printf("Nivel maximo de recursao: %d\n", nivelMaximo);
+    printf("=======================================================\n");
+#endif
+
     return 0;
 }
