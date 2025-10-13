@@ -1,5 +1,5 @@
-compile:
-	gcc -o teste main.c lista.c
+build:	main.c mapa.c nave.c lista.c backtracking.c
+	gcc main.c mapa.c nave.c lista.c backtracking.c -o Endurance && .\Endurance
 
-run: 
-	./teste
+analise: main.c mapa.c nave.c lista.c backtracking.c
+	gcc main.c mapa.c nave.c lista.c backtracking.c -o Endurance -DANALISE && .\Endurance
