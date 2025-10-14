@@ -13,7 +13,7 @@ void atualizaNave(nave* Nave, Informacoes* infos){
     Nave->QuantidadePeca = infos->PecasRestantes;
 }
 
-int percorreRua(quadrante Mapa[][COLUNAS],quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior){
+int percorreRua(quadrante **Mapa,quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior){
     printf("Chamanda Rua\n");
     /*Caso de sucesso */
     if (celula->Rua.Saida == TRUE){//retorna 0 se achou a saida
@@ -63,7 +63,7 @@ int percorreRua(quadrante Mapa[][COLUNAS],quadrante* celula,nave* Nave,Percurso*
     
 }
 
-int percorreCruzamento(quadrante Mapa[][COLUNAS],quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior){
+int percorreCruzamento(quadrante **Mapa ,quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior){
     printf("Chamanda Cruzamento\n");
     /*Caso de sucesso */
     if (celula->Cruzamento.Saida == TRUE){//retorna 0 se achou a saida
@@ -116,7 +116,7 @@ int percorreCruzamento(quadrante Mapa[][COLUNAS],quadrante* celula,nave* Nave,Pe
 
 }
 
-int movimentar(quadrante Mapa[][COLUNAS], nave* Nave,Percurso* lista,direcao DirecaoAnterior){
+int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnterior){
     printf("Chamanda movimentar\n");
     printf("Nave\n");
     imprimeNave(Nave);

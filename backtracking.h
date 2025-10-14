@@ -4,15 +4,13 @@
 #include "mapa.h"
 #include "lista.h"
 
-int movimentar(quadrante Mapa[][COLUNAS], nave* Nave,Percurso* lista,direcao DirecaoAnterior);
-
-int verificaQuadrante();
+int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnterior);
 
 void atualizaNave(nave* Nave, Informacoes* infos);
 
-int percorreRua(quadrante Mapa[][COLUNAS],quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior);
+int percorreRua(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior);
 
-int percorreCruzamento(quadrante Mapa[][COLUNAS],quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior);
+int percorreCruzamento(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior);
 
 
 
