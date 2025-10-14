@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "gerarMapa.h"
 #include "backtracking.h"
 #define STRING 20
 
@@ -76,7 +76,7 @@ int main(){
     }
     //imprimeMapaAdm(Mapa);
     if(escolha == 2){
-        
+        gerarMapa();
     }
 
     #ifdef ANALISE
