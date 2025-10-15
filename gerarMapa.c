@@ -1,10 +1,11 @@
 #include "gerarMapa.h"
 #include "time.h"
+#include <unistd.h>
 
 void gerarMapa(){
     srand(time(NULL));
     FILE* file = fopen("ArquivoGerado.txt", "w");
-    int altura, largura, pecas, durabilidade, custo, aumento, contadorPecas=0, linha, coluna;
+    int altura, largura, pecas, durabilidade, custo, aumento, contadorPecas=0, linha, coluna, xInicial, yInicial, xFinal, yFinal;
     if(file){
         printf("Para gerar o mapa precisamos definir alguns parametros\n");
         printf("Qual deve ser a altura e largura do mapa (separados por espaco)?\n");
@@ -31,9 +32,14 @@ void gerarMapa(){
             coluna = gerarNumeroAleatorio(largura);
             if(mapa[linha][coluna] == '.'){
                 if(i == 0){
-                    mapa[linha][coluna] = 'X';}
+                    mapa[linha][coluna] = 'X';
+                    xInicial = linha;
+                    yInicial = coluna;    
+                }
                 else{
                     mapa[linha][coluna] = 'F'; 
+                    xFinal = linha;
+                    yFinal = coluna;  
                 }
             }
             else{
@@ -50,22 +56,109 @@ void gerarMapa(){
                 i--;
             }
         }
+        gerarCaminhos(altura, largura, mapa, xInicial, yInicial, xFinal, yFinal);
+        ajustarCruzamentos(altura, largura, mapa);
+
         for(int i=0;i<altura;i++){
             for(int j=0;j<largura;j++){
                 fprintf(file, "%c", mapa[i][j]);
             }fprintf(file, "\n");
         }
+        
         for(int i=0;i<altura;i++){
             for(int j=0;j<largura;j++){
                 printf("%c", mapa[i][j]);
             }printf("\n");
         }
+        
         fclose(file);
     }
     else{
         printf("Erro ao abrir o arquivo");
     }
 }
+
+void gerarCaminhos(int altura, int largura, char mapa[altura][largura], int xInicial, int yInicial, int xFinal, int yFinal) {
+    int x = xInicial, y = yInicial;
+
+    while (x != xFinal || y != yFinal) {
+        int prioridade = rand() % 2;
+        int moveu = 0;
+
+        if (prioridade == 0){
+        if (x < xFinal && x + 1 < altura && (mapa[x + 1][y] == '.' || mapa[x + 1][y] == 'P')) {
+            x++;
+            mapa[x][y] = '|';
+            moveu = 1;
+        } 
+        else if (x > xFinal && x - 1 >= 0 && (mapa[x - 1][y] == '.' || mapa[x - 1][y] == 'P')) {
+            x--;
+            mapa[x][y] = '|';
+            moveu = 1;
+        } 
+        else if (y < yFinal && y + 1 < largura && (mapa[x][y + 1] == '.' || mapa[x][y + 1] == 'P')) {
+            y++;
+            mapa[x][y] = '-';
+            moveu = 1;
+        } 
+        else if (y > yFinal && y - 1 >= 0 && (mapa[x][y - 1] == '.' || mapa[x][y - 1] == 'P')) {
+            y--;
+            mapa[x][y] = '-';
+            moveu = 1;
+        }
+    }
+        else{
+        if (y < yFinal && y + 1 < largura && (mapa[x][y + 1] == '.' || mapa[x][y + 1] == 'P')) {
+            y++;
+            mapa[x][y] = '-';
+            moveu = 1;
+        } 
+        else if (y > yFinal && y - 1 >= 0 && (mapa[x][y - 1] == '.' || mapa[x][y - 1] == 'P')) {
+            y--;
+            mapa[x][y] = '-';
+            moveu = 1;
+        } 
+        else if (x < xFinal && x + 1 < altura && (mapa[x + 1][y] == '.' || mapa[x + 1][y] == 'P')) {
+            x++;
+            mapa[x][y] = '|';
+            moveu = 1;
+        } 
+        else if (x > xFinal && x - 1 >= 0 && (mapa[x - 1][y] == '.' || mapa[x - 1][y] == 'P')) {
+            x--;
+            mapa[x][y] = '|';
+            moveu = 1;
+        }
+        if (moveu == 0){
+        break;
+        }
+    }
+}
+}
+
+void ajustarCruzamentos(int altura, int largura, char mapa[altura][largura]) {
+    for (int i = 0; i < altura; i++) {
+        for (int j = 0; j < largura; j++) {
+
+            int temVertical = 0, temHorizontal = 0;
+
+            if (i > 0 && (mapa[i - 1][j] == '|' || mapa[i - 1][j] == '+' || mapa[i - 1][j] == 'X' || mapa[i - 1][j] == 'F'))
+                temVertical = 1;
+            if (i < altura - 1 && (mapa[i + 1][j] == '|' || mapa[i + 1][j] == '+' || mapa[i + 1][j] == 'X' || mapa[i + 1][j] == 'F'))
+                temVertical = 1;
+
+            if (j > 0 && (mapa[i][j - 1] == '-' || mapa[i][j - 1] == '+' || mapa[i][j - 1] == 'X' || mapa[i][j - 1] == 'F'))
+                temHorizontal = 1;
+            if (j < largura - 1 && (mapa[i][j + 1] == '-' || mapa[i][j + 1] == '+' || mapa[i][j + 1] == 'X' || mapa[i][j + 1] == 'F'))
+                temHorizontal = 1;
+
+
+            if ((mapa[i][j] == '.' || mapa[i][j] == '-' || mapa[i][j] == '|') && temVertical && temHorizontal) {
+                mapa[i][j] = '+';
+            }
+        }
+    }
+}
+
 
 int gerarNumeroAleatorio(int limite){
     return rand() % limite;
