@@ -42,8 +42,15 @@ void RemoverUlitmoPercruso(Percurso* lista){
 void imprimirLista(Percurso* lista){
     Apontador Aux;
     Aux = lista->Primeiro->Prox;
+    int Ajuda = 0;
     while(Aux != NULL){
-        printf("[%d][%d] Durabilidade: %d PecasRestantes: %d\n", Aux->Linha, Aux->Coluna, Aux->Durabilidade, Aux->PecasRestantes);
-        Aux = Aux->Prox;
+        if(Ajuda == 1 || Aux->Prox == NULL) {
+            Ajuda = 0;
+            printf("[%d][%d] Durabilidade: %d PecasRestantes: %d\n", Aux->Linha, Aux->Coluna, Aux->Durabilidade, Aux->PecasRestantes);
+            Aux = Aux->Prox;
+        } else if(Ajuda == 0){
+            Ajuda = 1;
+            Aux = Aux->Prox;
+        }
     }
 }
