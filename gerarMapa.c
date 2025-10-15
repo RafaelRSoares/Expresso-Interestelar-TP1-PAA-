@@ -4,10 +4,48 @@
 
 void gerarMapa(){
     srand(time(NULL));
-    FILE* file = fopen("ArquivoGerado.txt", "w");
-    int altura, largura, pecas, durabilidade, custo, aumento, contadorPecas=0, linha, coluna, xInicial, yInicial, xFinal, yFinal;
+    static int contador = 1;
+    char nomeArquivo[50];
+    sprintf(nomeArquivo, "ArquivoGerado%d.txt", contador);
+    contador++;
+    FILE* file = fopen(nomeArquivo, "w");
+    int altura, largura, pecas, durabilidade, custo, aumento, contadorPecas=0, linha, coluna, xInicial, yInicial, xFinal, yFinal, escolha, escolha2;
     if(file){
-        printf("Para gerar o mapa precisamos definir alguns parametros\n");
+        printf("==== BEM VINDO A GERACAO DE MAPAS INTERESTELAR ====\n");
+        printf("Gostaria de gerar o arquivo com base em dificuldades com parametros pre definidos ou configurar todos os parametros?\n");
+        printf("1 - Dificuldades\n2 - Configuracao Total\nEscolha: ");
+        scanf("%d", &escolha);
+        if(escolha == 1){
+            printf("Escolha a dificuldade:\n1 - Facil (Durabilidade alta / Mapa pequeno)\n2 - Medio (Durabilidade media / Mapa medio)\n3 - Dificil (Durabilidade baixa / Mapa grande)\nEscolha: ");
+            scanf("%d", &escolha2);
+            switch (escolha2)
+            {
+            case 1:
+                altura = rand() % 3 + 6;
+                largura =rand() % 3 + 6;
+                pecas = rand() % 2 + 2;
+                durabilidade = rand() % 11 + 50;
+                break;
+            case 2:
+                altura = rand() % 3 + 10;
+                largura =rand() % 3 + 10;
+                pecas = rand() % 2 + 4;
+                durabilidade = rand() % 11 + 35;
+                break;
+            case 3:
+                altura = rand() % 3 + 14;
+                largura =rand() % 3 + 14;
+                pecas = rand() % 2 + 7;
+                durabilidade = rand() % 11 + 25;
+                break;
+            default:
+                break;
+            }
+            custo = 5;
+            aumento = 10;
+        }
+        else{
+        printf("Defina os parametros a seguir\n");
         printf("Qual deve ser a altura e largura do mapa (separados por espaco)?\n");
         scanf("%d %d", &altura, &largura);
         printf("Qual deve ser a quantidade de pecas?\n");
@@ -17,7 +55,7 @@ void gerarMapa(){
         printf("Custo para cada movimentacao: ");
         scanf("%d", &custo);
         printf("Aumento de durabilidade por peca: ");
-        scanf("%d", &aumento);
+        scanf("%d", &aumento);}
         fprintf(file, "%d %d %d\n", durabilidade, custo, aumento);
         fprintf(file, "%d %d\n",  altura, largura);
         char mapa[altura][largura];
@@ -93,25 +131,25 @@ void gerarCaminhos(int altura, int largura, char mapa[altura][largura], int xIni
         int moveu = 0;
 
         if (prioridade == 0){
-        if (x < xFinal && x + 1 < altura && (mapa[x+1][y] == '.' || mapa[x+1][y] == 'P' || mapa[x+1][y] == 'F')) {
+        if (x < xFinal && x + 1 < altura && (mapa[x+1][y] == '.' || mapa[x+1][y] == 'P' || mapa[x+1][y] == 'F' || mapa[x+1][y] == '|' || mapa[x+1][y] == '-' || mapa[x+1][y] == '+')) {
             x++;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '|';}
             moveu = 1;
         } 
-        else if (x > xFinal && x - 1 >= 0 && (mapa[x-1][y] == '.' || mapa[x-1][y] == 'P' || mapa[x-1][y] == 'F')) {
+        else if (x > xFinal && x - 1 >= 0 && (mapa[x-1][y] == '.' || mapa[x-1][y] == 'P' || mapa[x-1][y] == 'F' || mapa[x-1][y] == '|' || mapa[x-1][y] == '-' || mapa[x-1][y] == '+')) {
             x--;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '|';}
             moveu = 1;
         } 
-        else if (y < yFinal && y + 1 < largura && (mapa[x][y+1] == '.' || mapa[x][y+1] == 'P' || mapa[x][y+1] == 'F')) {
+        else if (y < yFinal && y + 1 < largura && (mapa[x][y+1] == '.' || mapa[x][y+1] == 'P' || mapa[x][y+1] == 'F' || mapa[x][y+1] == '|' || mapa[x][y+1] == '-' || mapa[x][y+1] == '+')) {
             y++;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '-';}
             moveu = 1;
         } 
-        else if (y > yFinal && y - 1 >= 0 && (mapa[x][y-1] == '.' || mapa[x][y-1] == 'P' || mapa[x][y-1] == 'F')) {
+        else if (y > yFinal && y - 1 >= 0 && (mapa[x][y-1] == '.' || mapa[x][y-1] == 'P' || mapa[x][y-1] == 'F'|| mapa[x][y-1] == '|' || mapa[x][y-1] == '-' || mapa[x][y-1] == '+')) {
             y--;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '-';}
@@ -119,25 +157,25 @@ void gerarCaminhos(int altura, int largura, char mapa[altura][largura], int xIni
         }
     }
         else{
-        if (y < yFinal && y + 1 < largura && (mapa[x][y+1] == '.' || mapa[x][y+1] == 'P'|| mapa[x][y+1] == 'F')) {
+        if (y < yFinal && y + 1 < largura && (mapa[x][y+1] == '.' || mapa[x][y+1] == 'P'|| mapa[x][y+1] == 'F' || mapa[x][y+1] == '|' || mapa[x][y+1] == '-' || mapa[x][y+1] == '+')) {
             y++;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '-';}
             moveu = 1;
         } 
-        else if (y > yFinal && y - 1 >= 0 && (mapa[x][y-1] == '.' || mapa[x][y-1] == 'P'|| mapa[x][y-1] == 'F')) {
+        else if (y > yFinal && y - 1 >= 0 && (mapa[x][y-1] == '.' || mapa[x][y-1] == 'P'|| mapa[x][y-1] == 'F' || mapa[x][y-1] == '|' || mapa[x][y-1] == '-' || mapa[x][y-1] == '+')) {
             y--;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '-';}
             moveu = 1;
         } 
-        else if (x < xFinal && x + 1 < altura && (mapa[x+1][y] == '.' || mapa[x+1][y] == 'P' || mapa[x+1][y] == 'F')) {
+        else if (x < xFinal && x + 1 < altura && (mapa[x+1][y] == '.' || mapa[x+1][y] == 'P' || mapa[x+1][y] == 'F' || mapa[x+1][y] == '|' || mapa[x+1][y] == '-' || mapa[x+1][y] == '+')) {
             x++;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '|';}
             moveu = 1;
         } 
-        else if (x > xFinal && x - 1 >= 0 && (mapa[x-1][y] == '.' || mapa[x-1][y] == 'P'|| mapa[x-1][y] == 'F')) {
+        else if (x > xFinal && x - 1 >= 0 && (mapa[x-1][y] == '.' || mapa[x-1][y] == 'P'|| mapa[x-1][y] == 'F'|| mapa[x-1][y] == '|' || mapa[x-1][y] == '-' || mapa[x-1][y] == '+')) {
             x--;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '|';}
