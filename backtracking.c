@@ -14,23 +14,23 @@ void atualizaNave(nave* Nave, Informacoes* infos){
 }
 
 int percorreRua(quadrante **Mapa,quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior){
-    printf("Chamanda Rua\n");
     /*Caso de sucesso */
-    if (celula->Rua.Saida == TRUE){//retorna 0 se achou a saida
-        return 0;
-    }
+    //NÃO APAGAR - PEDRO
+    // if (celula->Rua.Saida == TRUE){//retorna 0 se achou a saida
+    //     return 0;
+    // }
 
-    if (celula->Rua.Peca == TRUE){
-        Nave->Durabilidade += Nave->AumentoPorPeca;
-        Nave->QuantidadePeca++;
-    }
+    // if (celula->Rua.Peca == TRUE){
+    //     Nave->Durabilidade += Nave->AumentoPorPeca;
+    //     Nave->QuantidadePeca++;
+    //     celula->Rua.Peca = FALSE;
+    // }
     
     if (DirecaoAnterior != Nulo && celula->Rua.Peca == FALSE){//Pelo visto quando acha a peça nao perde vida
         Nave->Durabilidade -= Nave->DanoPorSetor;
     }
     /*1° Caso de falha */
     if (verificaNave(Nave) == 0){//Nave nao tem durabilidade
-        // printf("Nave Quebrou [%d][%d]\n",Nave->PossicaoLinha,Nave->PossicaoColuna);
         atualizaNave(Nave,lista->Ultimo);
         RemoverUlitmoPercruso(lista);
         // Desfazer o caminho
@@ -45,10 +45,12 @@ int percorreRua(quadrante **Mapa,quadrante* celula,nave* Nave,Percurso* lista,di
             if (Nave->Consertado == TRUE)
                 celula->Rua.CursoRua[i].Acesso == FALSE;
             //se o proximo caminho retorna 0 achou a saida e vai retornando ai 
+           
             inserePercurso(lista,Nave->PossicaoLinha,Nave->PossicaoColuna,Nave->Durabilidade,Nave->QuantidadePeca,Nave->Consertado);
-            printf("No for [%d][%d]\n",celula->Rua.CursoRua[i].Caminho,celula->Rua.CursoRua[i].Acesso);
-            if (movimentar(Mapa,Nave,lista,inverteDirecao(celula->Rua.CursoRua[i].Caminho)) == 0)
+           
+            if (!movimentar(Mapa,Nave,lista,inverteDirecao(celula->Rua.CursoRua[i].Caminho))){
                 return 0;
+            }
             // se nao achou a saida tenta outro caminho 
             atualizaNave(Nave,lista->Ultimo);
             RemoverUlitmoPercruso(lista);    
@@ -60,27 +62,26 @@ int percorreRua(quadrante **Mapa,quadrante* celula,nave* Nave,Percurso* lista,di
     atualizaNave(Nave,lista->Ultimo);
     RemoverUlitmoPercruso(lista);    
     return 1;
-    
 }
 
 int percorreCruzamento(quadrante **Mapa ,quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior){
-    printf("Chamanda Cruzamento\n");
     /*Caso de sucesso */
-    if (celula->Cruzamento.Saida == TRUE){//retorna 0 se achou a saida
-        return 0;
-    }
+    //NÃO APAGAR - PEDRO
+    // if (celula->Cruzamento.Saida == TRUE){//retorna 0 se achou a saida
+    //     return 0;
+    // }
 
-    if (celula->Cruzamento.Peca == TRUE){
-        Nave->Durabilidade += Nave->AumentoPorPeca;
-        Nave->QuantidadePeca++;
-    }
+    // if (celula->Cruzamento.Peca == TRUE){
+    //     Nave->Durabilidade += Nave->AumentoPorPeca;
+    //     Nave->QuantidadePeca++;
+    //     celula->Cruzamento.Peca = FALSE;
+    // }
     
     if (DirecaoAnterior != Nulo && celula->Cruzamento.Peca == FALSE){//Pelo visto quando acha a peça nao perde vida
         Nave->Durabilidade -= Nave->DanoPorSetor;
     }
     /*1° Caso de falha */
     if (verificaNave(Nave) == 0){//Nave nao tem durabilidade
-        printf("Nave Quebrou [%d][%d]\n",Nave->PossicaoLinha,Nave->PossicaoColuna);
         atualizaNave(Nave,lista->Ultimo);
         RemoverUlitmoPercruso(lista);
         // Desfazer o caminho
@@ -98,9 +99,9 @@ int percorreCruzamento(quadrante **Mapa ,quadrante* celula,nave* Nave,Percurso* 
             
             inserePercurso(lista,Nave->PossicaoLinha,Nave->PossicaoColuna,Nave->Durabilidade,Nave->QuantidadePeca,Nave->Consertado);
             
-            printf("No for [%d][%d]\n",celula->Cruzamento.CursoCrusamento[i].Caminho,celula->Cruzamento.CursoCrusamento[i].Acesso);
-            if (movimentar(Mapa,Nave,lista,inverteDirecao(celula->Cruzamento.CursoCrusamento[i].Caminho)) == 0)
+            if (!movimentar(Mapa,Nave,lista,inverteDirecao(celula->Cruzamento.CursoCrusamento[i].Caminho))){
                 return 0;
+            }
             // se nao achou a saida tenta outro caminho 
             atualizaNave(Nave,lista->Ultimo);
             RemoverUlitmoPercruso(lista);    
@@ -112,15 +113,58 @@ int percorreCruzamento(quadrante **Mapa ,quadrante* celula,nave* Nave,Percurso* 
     atualizaNave(Nave,lista->Ultimo);
     RemoverUlitmoPercruso(lista);    
     return 1;
+}
 
+int percorreInteresse(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior){
+    /*Caso de sucesso */
+    if (celula->Interesse.Saida == TRUE){//retorna 0 se achou a saida
+        return 0;
+    }
 
+    if (celula->Interesse.Peca == TRUE){
+        Nave->Durabilidade += Nave->AumentoPorPeca;
+        Nave->QuantidadePeca++;
+        celula->Interesse.Peca = FALSE;
+    }
+    
+    if (DirecaoAnterior != Nulo && celula->Interesse.Peca == FALSE){//Pelo visto quando acha a peça nao perde vida
+        Nave->Durabilidade -= Nave->DanoPorSetor;
+    }
+    /*1° Caso de falha */
+    if (verificaNave(Nave) == 0){//Nave nao tem durabilidade
+        atualizaNave(Nave,lista->Ultimo);
+        RemoverUlitmoPercruso(lista);
+        // Desfazer o caminho
+        return 1;
+    }
+     
+    for (int i = 0; i < QUANTIDADECAMINHOSINTERESSE; i++){
+        //se pode acessar aquele caimnho chama de novo
+        //Mecher dentro desse if caso a vida da nave nao conte
+        if (celula->Interesse.CursoInteresse[i].Caminho != DirecaoAnterior && celula->Interesse.CursoInteresse[i].Acesso == TRUE){
+            if (Nave->Consertado == TRUE)
+                celula->Interesse.CursoInteresse[i].Acesso == FALSE;
+            //se o proximo caminho retorna 0 achou a saida e vai retornando ai 
+            
+            inserePercurso(lista,Nave->PossicaoLinha,Nave->PossicaoColuna,Nave->Durabilidade,Nave->QuantidadePeca,Nave->Consertado);
+                        
+            if (!movimentar(Mapa,Nave,lista,inverteDirecao(celula->Interesse.CursoInteresse[i].Caminho))){
+                return 0;
+            }
+            // se nao achou a saida tenta outro caminho 
+            atualizaNave(Nave,lista->Ultimo);
+            RemoverUlitmoPercruso(lista);    
+        }
+
+    }
+    /*2° Caso de falha */
+    //Nao tem caminhos percorriveis
+    atualizaNave(Nave,lista->Ultimo);
+    RemoverUlitmoPercruso(lista);    
+    return 1;
 }
 
 int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnterior){
-    printf("Chamanda movimentar\n");
-    printf("Nave\n");
-    imprimeNave(Nave);
-
 //modo analise
 #ifdef ANALISE
     static int nivelAtual = 0;
@@ -134,30 +178,23 @@ int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnter
     switch (DirecaoAnterior)
     {
     case Norte:
-        //printf("norte\n");
         Nave->PossicaoLinha++;
         break;
     case Sul:
-        //printf("sul\n");
         Nave->PossicaoLinha--;
         break;
     case Leste:
-        //printf("leste\n");
         Nave->PossicaoColuna--;
         break;
     case Oeste:
-        //printf("oeste\n");
         Nave->PossicaoColuna++;
         break;
     }
 
     inserePercurso(lista,Nave->PossicaoLinha,Nave->PossicaoColuna,Nave->Durabilidade,Nave->QuantidadePeca,Nave->Consertado);
-    printf("Lista\n");
-    imprimirLista(lista);
     
     int LinhaNave = Nave->PossicaoLinha;
     int ColunaNave = Nave->PossicaoColuna;
-    printf("LinNave %d ColNave %d\n",LinhaNave,ColunaNave);
     /*verifica que tipo de quadrante ele esta*/
      int resultado;
 
@@ -169,6 +206,9 @@ int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnter
     case 2:
         resultado = percorreCruzamento(Mapa, &Mapa[LinhaNave][ColunaNave], Nave, lista, DirecaoAnterior);
         break;
+    case 3:
+        resultado = percorreInteresse(Mapa, &Mapa[LinhaNave][ColunaNave], Nave, lista, DirecaoAnterior);
+        break;    
     default:
         resultado = 1;
         break;

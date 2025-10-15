@@ -24,7 +24,6 @@ void inserePercurso(Percurso* lista, int linha, int coluna, int durabilidade, in
 
 void RemoverUlitmoPercruso(Percurso* lista);
 
-
 void imprimirLista(Percurso* lista);
 
 #endif
