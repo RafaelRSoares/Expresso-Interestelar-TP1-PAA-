@@ -10,7 +10,7 @@ int main(){
     //printf("Digite o nome do arquivo: ");
     char nome[STRING];
     //scanf("%s", nome);
-    strcpy(nome,"arquivo2.txt");
+    strcpy(nome,"arquivo.txt");
 
 
     FILE* arqEntrada;
