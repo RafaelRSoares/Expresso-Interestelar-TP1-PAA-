@@ -110,12 +110,6 @@ void gerarMapa(){
             }fprintf(file, "\n");
         }
         
-        for(int i=0;i<altura;i++){
-            for(int j=0;j<largura;j++){
-                printf("%c", mapa[i][j]);
-            }printf("\n");
-        }
-        
         fclose(file);
     }
     else{
@@ -125,9 +119,9 @@ void gerarMapa(){
 
 void gerarCaminhos(int altura, int largura, char mapa[altura][largura], int xInicial, int yInicial, int xFinal, int yFinal) {
     int x = xInicial, y = yInicial;
-
+    int prioridade = rand() % 2;
     while (x != xFinal || y != yFinal) {
-        int prioridade = rand() % 2;
+        
         int moveu = 0;
 
         if (prioridade == 0){
@@ -188,6 +182,7 @@ void gerarCaminhos(int altura, int largura, char mapa[altura][largura], int xIni
 }
 }
 
+
 void ajustarCruzamentos(int altura, int largura, char mapa[altura][largura]) {
     for (int i = 0; i < altura; i++) {
         for (int j = 0; j < largura; j++) {
@@ -205,7 +200,7 @@ void ajustarCruzamentos(int altura, int largura, char mapa[altura][largura]) {
                 temHorizontal = 1;
 
 
-            if ((mapa[i][j] == '.' || mapa[i][j] == '-' || mapa[i][j] == '|') && temVertical && temHorizontal) {
+            if ((mapa[i][j] == '-' || mapa[i][j] == '|') && temVertical && temHorizontal) {
                 mapa[i][j] = '+';
             }
         }
