@@ -1,9 +1,4 @@
 #include "backtracking.h"
-//modo analise
-#ifdef ANALISE
-int totalChamadas = 0;
-int nivelMaximo = 0;
-#endif
 
 
 void atualizaNave(nave* Nave, Informacoes* infos){
@@ -164,15 +159,53 @@ int percorreInteresse(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* l
     return 1;
 }
 
+int percorreEventoEspecial(quadrante **Mapa, quadrante* celula, nave* Nave, Percurso* lista, direcao DirecaoAnterior) {
+    switch (celula->Tipo) {
+        case 'B': // Buraco de minhoca
+            printf("[!] Buraco de minhoca detectado! A nave foi teletransportada!\n");
+            Nave->PossicaoLinha = rand() % LINHAS;
+            Nave->PossicaoColuna = rand() % COLUNAS;
+            break;
+
+        case 'A': // Asteroide
+            printf("[!] Campo de asteroides! Dano elevado!\n");
+            Nave->Durabilidade -= (Nave->DanoPorSetor * 2);
+            break;
+
+        case 'G': // Raio gama
+            printf("[X] Raio gama detectado! A nave foi destruída instantaneamente!\n");
+            Nave->Durabilidade = 0;
+            return 1; // fim da execução
+            break;
+
+        case 'R': // Reator de reparo
+            printf("[+] Reator de reparo encontrado! Durabilidade aumentada!\n");
+            Nave->Durabilidade += (Nave->AumentoPorPeca * 2);
+            break;
+
+        default:
+            break;
+    }
+
+    if (verificaNave(Nave) == 0) {
+        RemoverUlitmoPercruso(lista);
+        return 1;
+    }
+
+    return movimentar(Mapa, Nave, lista, DirecaoAnterior);
+}
+
 int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnterior){
 //modo analise
-#ifdef ANALISE
     static int nivelAtual = 0;
-    totalChamadas++;
-    nivelAtual++;
-    if (nivelAtual > nivelMaximo)
-        nivelMaximo = nivelAtual;
-#endif
+
+    // Contagem dinâmica de análise
+    if (modoAnaliseAtivo) {
+        totalChamadas++;
+        nivelAtual++;
+        if (nivelAtual > nivelMaximo)
+            nivelMaximo = nivelAtual;
+    }
 
     /*Modifica a possicao da nave*/
     switch (DirecaoAnterior)
@@ -208,14 +241,17 @@ int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnter
         break;
     case 3:
         resultado = percorreInteresse(Mapa, &Mapa[LinhaNave][ColunaNave], Nave, lista, DirecaoAnterior);
-        break;    
+        break;
+    case 4:
+        resultado = percorreEventoEspecial(Mapa, &Mapa[LinhaNave][ColunaNave], Nave, lista, DirecaoAnterior);
+        break;
     default:
         resultado = 1;
         break;
     }
 
-#ifdef ANALISE
-    nivelAtual--;
-#endif
+    if (modoAnaliseAtivo)
+        nivelAtual--;
+
     return resultado;
 }

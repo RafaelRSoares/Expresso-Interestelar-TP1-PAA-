@@ -205,7 +205,7 @@ void setQuadranteDeInteresse(quadrante **Mapa, int i, int j){
     Mapa[i][j].Interesse.CursoInteresse[2].Caminho = Leste;
     Mapa[i][j].Interesse.CursoInteresse[3].Caminho = Oeste;
 
-    /*Set de saida e se tem peça*/
+    //Tipos de interesse adicionais
     switch (Mapa[i][j].Tipo)
     {
     case 'F':
@@ -220,7 +220,36 @@ void setQuadranteDeInteresse(quadrante **Mapa, int i, int j){
         Mapa[i][j].Interesse.Saida = FALSE;
         Mapa[i][j].Interesse.Peca = FALSE;
         break;
+        
+    //NOVO: buraco de minhoca
+    case 'W':
+        Mapa[i][j].Interesse.Saida = FALSE;
+        Mapa[i][j].Interesse.Peca = FALSE;
+        Mapa[i][j].Interesse.Efeito = WORMHOLE;
+        break;
+
+    //NOVO: asteroide
+    case 'A':
+        Mapa[i][j].Interesse.Saida = FALSE;
+        Mapa[i][j].Interesse.Peca = FALSE;
+        Mapa[i][j].Interesse.Efeito = ASTEROIDE;
+        break;
+
+    //NOVO: raio gama
+    case 'G':
+        Mapa[i][j].Interesse.Saida = FALSE;
+        Mapa[i][j].Interesse.Peca = FALSE;
+        Mapa[i][j].Interesse.Efeito = GAMMA;
+        break;
+
+    //NOVO: estação de reparo
+    case 'R':
+        Mapa[i][j].Interesse.Saida = FALSE;
+        Mapa[i][j].Interesse.Peca = FALSE;
+        Mapa[i][j].Interesse.Efeito = REPAIR;
+        break;
     }
+    
     Mapa[i][j].Tipo = '#';
 
     /*Sets dos acessos*/
@@ -281,6 +310,18 @@ void setMapa(quadrante **Mapa,nave* Nave){
                 setQuadranteDeInteresse(Mapa,i,j);
                 break;
             case 'F':
+                setQuadranteDeInteresse(Mapa,i,j);
+                break;
+            case 'W'://buracp de minhoca
+                setQuadranteDeInteresse(Mapa,i,j);
+                break;
+            case 'A'://asteroide
+                setQuadranteDeInteresse(Mapa,i,j);
+                break;
+            case 'G'://raio gamma
+                setQuadranteDeInteresse(Mapa,i,j);
+                break;
+            case 'R'://reparo
                 setQuadranteDeInteresse(Mapa,i,j);
                 break;
             case '-':

@@ -104,6 +104,33 @@ void gerarMapa(){
         }
         ajustarCruzamentos(altura, largura, mapa);
 
+        //complicações e bônus
+        int totalExtras = (altura * largura) / 10; //10% do mapa, pra não ser muito
+        for (int k = 0; k < totalExtras; k++){
+            linha = gerarNumeroAleatorio(altura);
+            coluna = gerarNumeroAleatorio(largura);
+            if(mapa[linha][coluna] == '.'){
+                int tipoExtra = rand() % 4;
+                switch (tipoExtra)
+                {
+                case 0: //Buraco de minhoca (benefico ou random)
+                    mapa[linha][coluna] = 'W'; //"W" de Wormhole
+                    break;
+                case 1: //Asteroide (prejudicial)
+                    mapa[linha][coluna] = 'A';
+                    break;
+                case 2: //Raio gama (gamma ray burst, insta-kill)
+                    mapa[linha][coluna] = 'G';
+                    break;
+                case 3: //Estação de reabastecimento (ajuda)
+                    mapa[linha][coluna] = 'R';
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+
         for(int i=0;i<altura;i++){
             for(int j=0;j<largura;j++){
                 fprintf(file, "%c", mapa[i][j]);
