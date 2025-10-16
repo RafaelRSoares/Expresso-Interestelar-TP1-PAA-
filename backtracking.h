@@ -12,13 +12,7 @@ int percorreRua(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* lista,d
 
 int percorreCruzamento(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior);
 
-
-
-
-
-//return 0 achou a saida
-//return 1 deu ruim
-
+int percorreInteresse(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior);
 
 
 #endif

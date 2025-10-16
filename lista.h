@@ -8,7 +8,7 @@ typedef struct Informacoes{
     int Linha;
     int Coluna;
     int Durabilidade;
-    int PecasRestantes;
+    int PecasColetadas;
     short Consertado;
     Apontador Prox;
 } Informacoes;
@@ -20,11 +20,12 @@ typedef struct{
 
 void inicializarPercurso(Percurso* lista);
 
-void inserePercurso(Percurso* lista, int linha, int coluna, int durabilidade, int pecasRestantes, short Consertado);
+void inserePercurso(Percurso* lista, int linha, int coluna, int durabilidade, int pecasColetadas, short Consertado);
 
 void RemoverUlitmoPercruso(Percurso* lista);
 
+void imprimirLista(Percurso* lista, int pecasTotais);
 
-void imprimirLista(Percurso* lista);
+int TodasAsPecasForamColetadas(Percurso* lista, int pecasTotais);
 
 #endif
