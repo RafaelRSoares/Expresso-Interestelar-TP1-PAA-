@@ -4,14 +4,14 @@
 
 #include "mapa.h"
 
-void imprimeMapa(quadrante Mapa[][COLUNAS]){
+void imprimeMapa(quadrante **Mapa){
     for (int i = 0; i < LINHAS; i++){
         for (int j = 0; j < COLUNAS; j++)
             printf("%c",Mapa[i][j].Tipo);  
         printf("\n");
     }
 }
-void imprimeMapaAdm(quadrante Mapa[][COLUNAS]){
+void imprimeMapaAdm(quadrante **Mapa){
     for (int i = 0; i < LINHAS; i++){
         for (int j = 0; j < COLUNAS; j++){
             switch (Mapa[i][j].Tipo)
@@ -71,7 +71,7 @@ void setQuadranteRua(quadrante* celula,int i, int j){
 
 }
 
-void setQuadranteCruzamento(quadrante Mapa[][COLUNAS], int i, int j){
+void setQuadranteCruzamento(quadrante **Mapa, int i, int j){
     switch (Mapa[i][j].Tipo)
     {
     case '+':  
@@ -190,7 +190,7 @@ void setQuadranteCruzamento(quadrante Mapa[][COLUNAS], int i, int j){
     }
 }
 
-void setQuadranteDeInteresse(quadrante Mapa[][COLUNAS], int i, int j){  
+void setQuadranteDeInteresse(quadrante **Mapa, int i, int j){  
     int count = 0;
     char AuxTipo = Mapa[i][j].Tipo;
     if((i != 0 && i != LINHAS - 1) && (j != 0 && j != COLUNAS - 1)){//Nao for nas bordas
@@ -363,7 +363,7 @@ void setQuadranteDeInteresse(quadrante Mapa[][COLUNAS], int i, int j){
     }
 }
 
-void setMapa(quadrante Mapa[][COLUNAS],nave* Nave){
+void setMapa(quadrante **Mapa,nave* Nave){
     for (int i = 0; i < LINHAS; i++){
         for (int j = 0; j < COLUNAS; j++){
             switch (Mapa[i][j].Tipo)
