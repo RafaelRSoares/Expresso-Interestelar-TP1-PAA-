@@ -11,7 +11,6 @@ typedef enum  {
     Oeste = 4
 }direcao; // Caso a direção seja 0 o caminho nao esta disponivel para passar
 
-
 typedef struct {
     direcao Caminho;
     short Acesso;
@@ -37,6 +36,12 @@ typedef struct {
         }Cruzamento;
         
         struct {
+            curso CursoInteresse[QUANTIDADECAMINHOSINTERESSE];
+            short Peca;
+            short Saida;
+        }Interesse;
+
+        struct {
             curso CaminhosEspecial[QUANTIDADECAMINHOSESPECIAL];
             short Peca;
             short Saida;
@@ -49,18 +54,14 @@ typedef struct {
 void imprimeMapa(quadrante **Mapa);
 void imprimeMapaAdm(quadrante **Mapa);
 
+int verificaQuadrante(quadrante* celula);
+int inverteDirecao(direcao Direcao);
+
 void setQuadranteNula(quadrante* celula);
-void setQuadranteRua(quadrante* celula, int i, int j);
+void setQuadranteRua(quadrante* celula);
 void setQuadranteCruzamento(quadrante **Mapa, int i, int j);
 void setQuadranteDeInteresse(quadrante **Mapa, int i, int j); 
 
 void setMapa(quadrante **Mapa, nave* Nave);
-
-int inverteDirecao(direcao Direcao);
-
-int verificaQuadrante(quadrante* celula);
-//return -1 é ripo nulo
-// return 1 é tipo rua
-//return 2 é tipo cruzamento
 
 #endif
