@@ -9,12 +9,14 @@ void gerarMapa(){
     sprintf(nomeArquivo, "ArquivoGerado%d.txt", contador);
     contador++;
     FILE* file = fopen(nomeArquivo, "w");
-    int altura, largura, pecas, durabilidade, custo, aumento, contadorPecas=0, linha, coluna, xInicial, yInicial, xFinal, yFinal, escolha, escolha2;
+    int altura, largura, pecas, durabilidade, custo, aumento, contadorPecas=0, linha, coluna, xInicial, yInicial, xFinal, yFinal, escolha, escolha2, escolha3;
     if(file){
         printf("==== BEM VINDO A GERACAO DE MAPAS INTERESTELAR ====\n");
         printf("Gostaria de gerar o arquivo com base em dificuldades com parametros pre definidos ou configurar todos os parametros?\n");
         printf("1 - Dificuldades\n2 - Configuracao Total\nEscolha: ");
         scanf("%d", &escolha);
+        printf("Gostaria de gerar as complicacoes adicionais (correspondem a 10%% do mapa)?\n1 - Sim\n2 - Nao\nEscolha: ");
+        scanf("%d", &escolha3);
         if(escolha == 1){
             printf("Escolha a dificuldade:\n1 - Facil (Durabilidade alta / Mapa pequeno)\n2 - Medio (Durabilidade media / Mapa medio)\n3 - Dificil (Durabilidade baixa / Mapa grande)\nEscolha: ");
             scanf("%d", &escolha2);
@@ -45,6 +47,7 @@ void gerarMapa(){
             aumento = 10;
         }
         else{
+        printf("Gostaria de gerar as complicacoes adicionais (correspondem a 10%% do mapa)?\n1 - Sim\n2 - Nao\nEscolha: ");
         printf("Defina os parametros a seguir\n");
         printf("Qual deve ser a altura e largura do mapa (separados por espaco)?\n");
         scanf("%d %d", &altura, &largura);
@@ -102,12 +105,49 @@ void gerarMapa(){
         for(int j=0;j<pecas;j++){
             gerarCaminhos(altura, largura, mapa, xInicial, yInicial, cordenadasXP[j], cordenadasYP[j]);
         }
-        ajustarCruzamentos(altura, largura, mapa);
 
+        //complicações e bônus
+        if(escolha3 == 1){
+        int totalExtras = (altura * largura) / 10; //10% do mapa, pra não ser muito
+        for (int k = 0; k < totalExtras; k++){
+            linha = gerarNumeroAleatorio(altura);
+            coluna = gerarNumeroAleatorio(largura);
+            if(mapa[linha][coluna] == '.'){
+                int tipoExtra = rand() % 4;
+                switch (tipoExtra)
+                {
+                case 0: //Buraco de minhoca (benefico ou random)
+                    mapa[linha][coluna] = 'W'; //"W" de Wormhole
+                    gerarCaminhos(altura, largura, mapa, xInicial, yInicial, linha, coluna);
+                    break;
+                case 1: //Asteroide (prejudicial)
+                    mapa[linha][coluna] = 'A';
+                    gerarCaminhos(altura, largura, mapa, xInicial, yInicial, linha, coluna);
+                    break;
+                case 2: //Raio gama (gamma ray burst, insta-kill)
+                    mapa[linha][coluna] = 'G';
+                    gerarCaminhos(altura, largura, mapa, xInicial, yInicial, linha, coluna);
+                    break;
+                case 3: //Estação de reabastecimento (ajuda)
+                    mapa[linha][coluna] = 'R';
+                    gerarCaminhos(altura, largura, mapa, xInicial, yInicial, linha, coluna);
+                    break;
+                default:
+                    break;
+                }
+            }
+        }}
+    ajustarCruzamentos(altura, largura, mapa);
         for(int i=0;i<altura;i++){
             for(int j=0;j<largura;j++){
                 fprintf(file, "%c", mapa[i][j]);
             }fprintf(file, "\n");
+        }
+
+        for(int i=0;i<altura;i++){
+            for(int j=0;j<largura;j++){
+                printf("%c ", mapa[i][j]);
+            }printf( "\n");
         }
         
         fclose(file);
@@ -288,25 +328,25 @@ void gerarCaminhos(int altura, int largura, char mapa[altura][largura], int xIni
         int moveu = 0;
 
         if (prioridade == 0){
-        if (x < xFinal && x + 1 < altura && (mapa[x+1][y] == '.' || mapa[x+1][y] == 'P' || mapa[x+1][y] == 'F' || mapa[x+1][y] == '|' || mapa[x+1][y] == '-' || mapa[x+1][y] == '+')) {
+        if (x < xFinal && x + 1 < altura && (mapa[x+1][y] == '.' || mapa[x+1][y] == 'P' || mapa[x+1][y] == 'F' || mapa[x+1][y] == '|' || mapa[x+1][y] == '-' || mapa[x+1][y] == '+' || mapa[x+1][y] == 'W' || mapa[x+1][y] == 'A' || mapa[x+1][y] == 'G' || mapa[x+1][y] == 'R')) {
             x++;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '|';}
             moveu = 1;
         } 
-        else if (x > xFinal && x - 1 >= 0 && (mapa[x-1][y] == '.' || mapa[x-1][y] == 'P' || mapa[x-1][y] == 'F' || mapa[x-1][y] == '|' || mapa[x-1][y] == '-' || mapa[x-1][y] == '+')) {
+        else if (x > xFinal && x - 1 >= 0 && (mapa[x-1][y] == '.' || mapa[x-1][y] == 'P' || mapa[x-1][y] == 'F' || mapa[x-1][y] == '|' || mapa[x-1][y] == '-' || mapa[x-1][y] == '+'|| mapa[x-1][y] == 'W' || mapa[x-1][y] == 'A' || mapa[x-1][y] == 'G' || mapa[x-1][y] == 'R')) {
             x--;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '|';}
             moveu = 1;
         } 
-        else if (y < yFinal && y + 1 < largura && (mapa[x][y+1] == '.' || mapa[x][y+1] == 'P' || mapa[x][y+1] == 'F' || mapa[x][y+1] == '|' || mapa[x][y+1] == '-' || mapa[x][y+1] == '+')) {
+        else if (y < yFinal && y + 1 < largura && (mapa[x][y+1] == '.' || mapa[x][y+1] == 'P' || mapa[x][y+1] == 'F' || mapa[x][y+1] == '|' || mapa[x][y+1] == '-' || mapa[x][y+1] == '+'|| mapa[x][y+1] == 'W' || mapa[x][y+1]== 'A' || mapa[x][y+1]== 'G' || mapa[x][y+1] == 'R')) {
             y++;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '-';}
             moveu = 1;
         } 
-        else if (y > yFinal && y - 1 >= 0 && (mapa[x][y-1] == '.' || mapa[x][y-1] == 'P' || mapa[x][y-1] == 'F'|| mapa[x][y-1] == '|' || mapa[x][y-1] == '-' || mapa[x][y-1] == '+')) {
+        else if (y > yFinal && y - 1 >= 0 && (mapa[x][y-1] == '.' || mapa[x][y-1] == 'P' || mapa[x][y-1] == 'F'|| mapa[x][y-1] == '|' || mapa[x][y-1] == '-' || mapa[x][y-1] == '+' || mapa[x][y-1] == 'W' || mapa[x][y-1] == 'A' || mapa[x][y-1] == 'G' || mapa[x][y-1] == 'R')) {
             y--;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '-';}
@@ -314,25 +354,25 @@ void gerarCaminhos(int altura, int largura, char mapa[altura][largura], int xIni
         }
     }
         else{
-        if (y < yFinal && y + 1 < largura && (mapa[x][y+1] == '.' || mapa[x][y+1] == 'P'|| mapa[x][y+1] == 'F' || mapa[x][y+1] == '|' || mapa[x][y+1] == '-' || mapa[x][y+1] == '+')) {
+        if (y < yFinal && y + 1 < largura && (mapa[x][y+1] == '.' || mapa[x][y+1] == 'P'|| mapa[x][y+1] == 'F' || mapa[x][y+1] == '|' || mapa[x][y+1] == '-' || mapa[x][y+1] == '+' || mapa[x][y+1] == 'W' || mapa[x][y+1]== 'A' || mapa[x][y+1] == 'G' || mapa[x][y+1] == 'R')) {
             y++;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '-';}
             moveu = 1;
         } 
-        else if (y > yFinal && y - 1 >= 0 && (mapa[x][y-1] == '.' || mapa[x][y-1] == 'P'|| mapa[x][y-1] == 'F' || mapa[x][y-1] == '|' || mapa[x][y-1] == '-' || mapa[x][y-1] == '+')) {
+        else if (y > yFinal && y - 1 >= 0 && (mapa[x][y-1] == '.' || mapa[x][y-1] == 'P'|| mapa[x][y-1] == 'F' || mapa[x][y-1] == '|' || mapa[x][y-1] == '-' || mapa[x][y-1] == '+' || mapa[x][y-1] == 'W' || mapa[x][y-1] == 'A' || mapa[x][y-1] == 'G' || mapa[x][y-1] == 'R')) {
             y--;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '-';}
             moveu = 1;
         } 
-        else if (x < xFinal && x + 1 < altura && (mapa[x+1][y] == '.' || mapa[x+1][y] == 'P' || mapa[x+1][y] == 'F' || mapa[x+1][y] == '|' || mapa[x+1][y] == '-' || mapa[x+1][y] == '+')) {
+        else if (x < xFinal && x + 1 < altura && (mapa[x+1][y] == '.' || mapa[x+1][y] == 'P' || mapa[x+1][y] == 'F' || mapa[x+1][y] == '|' || mapa[x+1][y] == '-' || mapa[x+1][y] == '+' || mapa[x+1][y] == 'W' || mapa[x+1][y] == 'A' || mapa[x+1][y] == 'G' || mapa[x+1][y] == 'R')) {
             x++;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '|';}
             moveu = 1;
         } 
-        else if (x > xFinal && x - 1 >= 0 && (mapa[x-1][y] == '.' || mapa[x-1][y] == 'P'|| mapa[x-1][y] == 'F'|| mapa[x-1][y] == '|' || mapa[x-1][y] == '-' || mapa[x-1][y] == '+')) {
+        else if (x > xFinal && x - 1 >= 0 && (mapa[x-1][y] == '.' || mapa[x-1][y] == 'P'|| mapa[x-1][y] == 'F'|| mapa[x-1][y] == '|' || mapa[x-1][y] == '-' || mapa[x-1][y] == '+' || mapa[x-1][y] == 'W' || mapa[x+1][y] == 'A' || mapa[x-1][y] == 'G' || mapa[x-1][y] == 'R')) {
             x--;
             if (mapa[x][y] == '.'){
             mapa[x][y] = '|';}
@@ -352,14 +392,14 @@ void ajustarCruzamentos(int altura, int largura, char mapa[altura][largura]) {
 
             int temVertical = 0, temHorizontal = 0;
 
-            if (i > 0 && (mapa[i - 1][j] == '|' || mapa[i - 1][j] == '+' || mapa[i - 1][j] == 'X' || mapa[i - 1][j] == 'F' || mapa[i - 1][j] == 'P'))
+            if (i > 0 && (mapa[i - 1][j] == '|' || mapa[i - 1][j] == '+' || mapa[i - 1][j] == 'X' || mapa[i - 1][j] == 'F' || mapa[i - 1][j] == 'W' || mapa[i - 1][j] == 'A' || mapa[i - 1][j] == 'G' || mapa[i - 1][j] == 'R'))
                 temVertical = 1;
-            if (i < altura - 1 && (mapa[i + 1][j] == '|' || mapa[i + 1][j] == '+' || mapa[i + 1][j] == 'X' || mapa[i + 1][j] == 'F' || mapa[i + 1][j] == 'P'))
+            if (i < altura - 1 && (mapa[i + 1][j] == '|' || mapa[i + 1][j] == '+' || mapa[i + 1][j] == 'X' || mapa[i + 1][j] == 'F' || mapa[i + 1][j] == 'P' || mapa[i + 1][j] == 'W' || mapa[i + 1][j] == 'A' || mapa[i + 1][j] == 'G' || mapa[i + 1][j] == 'R'))
                 temVertical = 1;
 
-            if (j > 0 && (mapa[i][j - 1] == '-' || mapa[i][j - 1] == '+' || mapa[i][j - 1] == 'X' || mapa[i][j - 1] == 'F' || mapa[i][j - 1] == 'P'))
+            if (j > 0 && (mapa[i][j - 1] == '-' || mapa[i][j - 1] == '+' || mapa[i][j - 1] == 'X' || mapa[i][j - 1] == 'F' || mapa[i][j - 1] == 'P' || mapa[i][j-1] == 'W' || mapa[i ][j-1] == 'A' || mapa[i][j-1] == 'G' || mapa[i][j - 1] == 'R'))
                 temHorizontal = 1;
-            if (j < largura - 1 && (mapa[i][j + 1] == '-' || mapa[i][j + 1] == '+' || mapa[i][j + 1] == 'X' || mapa[i][j + 1] == 'F' || mapa[i][j + 1] == 'P'))
+            if (j < largura - 1 && (mapa[i][j + 1] == '-' || mapa[i][j + 1] == '+' || mapa[i][j + 1] == 'X' || mapa[i][j + 1] == 'F' || mapa[i][j + 1] == 'P' || mapa[i][j+1] == 'W' || mapa[i][j+1] == 'A' || mapa[i][j+1] == 'G' || mapa[i][j+1] == 'R'))
                 temHorizontal = 1;
 
 
