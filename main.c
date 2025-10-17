@@ -80,10 +80,10 @@ int main(){
             }
 
             printf("\n");
-            imprimirLista(&percurso, pecasTotais);
+            imprimirLista(&percurso);
 
             printf("\n");
-            int verificacao = TodasAsPecasForamColetadas(&percurso, pecasTotais);
+            int verificacao = TodasAsPecasForamColetadas(&percurso);
 
             if(resultado == 0 && verificacao == 0){
                 printf("A tripulacao finalizou sua jornada\n\n");

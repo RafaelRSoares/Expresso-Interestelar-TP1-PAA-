@@ -288,7 +288,7 @@
                 <property name="label" translatable="yes">Resultado</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
-                  <attribute name="size" value="15360"/>
+                  <attribute name="size" value="20480"/>
                 </attributes>
               </object>
               <packing>
@@ -310,6 +310,7 @@
                 <property name="hscroll-policy">natural</property>
                 <property name="vscroll-policy">natural</property>
                 <property name="editable">False</property>
+                <property name="justification">center</property>
                 <property name="accepts-tab">False</property>
               </object>
               <packing>
@@ -319,23 +320,53 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button_voltar_menu">
-                <property name="label" translatable="yes">Voltar Menu</property>
+              <object class="GtkButtonBox">
                 <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
+                <property name="can-focus">False</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="margin-start">8</property>
-                <property name="margin-end">8</property>
-                <property name="margin-top">8</property>
-                <property name="margin-bottom">8</property>
-                <signal name="clicked" handler="on_button_voltar_menu_clicked" swapped="no"/>
+                <property name="layout-style">start</property>
+                <child>
+                  <object class="GtkButton" id="button_voltar_menu">
+                    <property name="label" translatable="yes">Voltar Menu</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="margin-start">8</property>
+                    <property name="margin-end">8</property>
+                    <property name="margin-top">8</property>
+                    <property name="margin-bottom">8</property>
+                    <signal name="clicked" handler="on_button_voltar_menu_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_analise">
+                    <property name="label" translatable="yes">Analise</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="margin-start">8</property>
+                    <property name="margin-end">8</property>
+                    <property name="margin-top">8</property>
+                    <property name="margin-bottom">8</property>
+                    <signal name="clicked" handler="on_button_analise_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>
@@ -786,7 +817,125 @@ durabalidade e quantidade de peças</property>
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Analise da função</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                  <attribute name="size" value="20480"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkTextView" id="text_analise">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="editable">False</property>
+                <property name="accepts-tab">False</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_voltar_menu2">
+                <property name="label" translatable="yes">Voltar Menu</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="margin-start">8</property>
+                <property name="margin-end">8</property>
+                <property name="margin-top">8</property>
+                <property name="margin-bottom">8</property>
+                <signal name="clicked" handler="on_button_voltar_menu2_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="name">view_analise_funcao</property>
+            <property name="title" translatable="yes">page1</property>
+            <property name="position">7</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Pré visualização do mapa</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                  <attribute name="size" value="20480"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkTextView" id="text_mapa">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="justification">center</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_voltar_menu3">
+                <property name="label" translatable="yes">Voltar Menu</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="margin-start">8</property>
+                <property name="margin-end">8</property>
+                <property name="margin-top">8</property>
+                <property name="margin-bottom">8</property>
+                <signal name="clicked" handler="on_button_voltar_menu3_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="name">view_pre_mapa</property>
+            <property name="title" translatable="yes">page0</property>
+            <property name="position">8</property>
+          </packing>
         </child>
       </object>
     </child>

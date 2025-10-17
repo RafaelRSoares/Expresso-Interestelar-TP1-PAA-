@@ -39,14 +39,14 @@ void RemoverUlitmoPercruso(Percurso* lista){
     free(Aux);   
 }
 
-void imprimirLista(Percurso* lista, int pecasTotais){
+void imprimirLista(Percurso* lista){
     Apontador Aux;
     Aux = lista->Primeiro->Prox;
     int Ajuda = 0;
     while(Aux != NULL){
         if(Ajuda == 1 || Aux->Prox == NULL) {
             Ajuda = 0;
-            int sobrou = pecasTotais - Aux->PecasColetadas;
+            int sobrou = 4 - Aux->PecasColetadas;
             printf("linha: %d, Coluna: %d D: %d pecas restantes: %d\n", Aux->Linha, Aux->Coluna, Aux->Durabilidade, sobrou);
             if(sobrou == 0){
                 printf("\nA jornada sera finalizada sem mais desafios\n");
@@ -60,20 +60,13 @@ void imprimirLista(Percurso* lista, int pecasTotais){
     }
 }
 
-int TodasAsPecasForamColetadas(Percurso* lista, int pecasTotais){
-    Apontador Aux;
-    Aux = lista->Primeiro->Prox;
-    int sobrou;
-    while(Aux != NULL){
-        if(Aux->Prox == NULL){
-            sobrou = pecasTotais - Aux->PecasColetadas;
+int TodasAsPecasForamColetadas(Percurso* lista){
+    Apontador Aux = lista->Primeiro->Prox;
+    while (Aux != NULL){
+        if (Aux->PecasColetadas < 4){ 
+            return 1; 
         }
         Aux = Aux->Prox;
     }
-    if (sobrou == 0){
-        return 1;
-    }
-    else{
-        return 0;
-    }
+    return 0; 
 }
