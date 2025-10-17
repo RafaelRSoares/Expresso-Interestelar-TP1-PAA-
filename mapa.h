@@ -8,8 +8,18 @@ typedef enum  {
     Norte = 1,
     Sul = 2,
     Leste = 3,
-    Oeste = 4
+    Oeste = 4,
+    Gargantua = 5
 }direcao; // Caso a direção seja 0 o caminho nao esta disponivel para passar
+
+typedef enum {
+    NORMAL,
+    WORMHOLE,
+    ASTEROIDE,
+    GAMMA,
+    REPAIR,
+    TEMPORAL_ANOMALY//Sempre por esse por ultimo
+}TipoEfeito; //complicações
 
 
 typedef struct {
@@ -37,30 +47,34 @@ typedef struct {
         }Cruzamento;
         
         struct {
-            curso CaminhosEspecial[QUANTIDADECAMINHOSESPECIAL];
+            curso CursoInteresse[QUANTIDADECAMINHOSINTERESSE];
             short Peca;
             short Saida;
+        }Interesse;
+
+        struct {
+            curso CursoEspecial[QUANTIDADECAMINHOSESPECIAL];
+            short Peca;
+            short Saida;
+            TipoEfeito Efeito; //para as complicalções
         }Especial;
         
     };
 } quadrante;
 
 
-void imprimeMapa(quadrante Mapa[][COLUNAS]);
-void imprimeMapaAdm(quadrante Mapa[][COLUNAS]);
-
-void setQuadranteNula(quadrante* celula);
-void setQuadranteRua(quadrante* celula, int i, int j);
-void setQuadranteCruzamento(quadrante Mapa[][COLUNAS], int i, int j);
-void setQuadranteDeInteresse(quadrante Mapa[][COLUNAS], int i, int j); 
-
-void setMapa(quadrante Mapa[][COLUNAS], nave* Nave);
-
-int inverteDirecao(direcao Direcao);
+void imprimeMapa(quadrante **Mapa);
+void imprimeMapaAdm(quadrante **Mapa);
 
 int verificaQuadrante(quadrante* celula);
-//return -1 é ripo nulo
-// return 1 é tipo rua
-//return 2 é tipo cruzamento
+int inverteDirecao(direcao Direcao);
+
+void setQuadranteNula(quadrante* celula);
+void setQuadranteRua(quadrante* celula);
+void setQuadranteCruzamento(quadrante **Mapa, int i, int j);
+void setQuadranteDeInteresse(quadrante **Mapa, int i, int j); 
+void setQuadranteEspecial(quadrante **Mapa, int i, int j);
+
+void setMapa(quadrante **Mapa, nave* Nave);
 
 #endif

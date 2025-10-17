@@ -4,23 +4,22 @@
 #include "mapa.h"
 #include "lista.h"
 
-int movimentar(quadrante Mapa[][COLUNAS], nave* Nave,Percurso* lista,direcao DirecaoAnterior);
+/*Variáveis compartilhadas com a main. nunca usei extern antes, mas aparentmente funciona como se fosse
+um ponteiro para uma variável definida em outro arquivo. Realmente não sei se está certo, mas funciona*/
+extern int totalChamadas;
+extern int nivelMaximo;
+extern int modoAnaliseAtivo;
 
-int verificaQuadrante();
+
+int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnterior);
 
 void atualizaNave(nave* Nave, Informacoes* infos);
 
-int percorreRua(quadrante Mapa[][COLUNAS],quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior);
+int percorreRua(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior);
 
-int percorreCruzamento(quadrante Mapa[][COLUNAS],quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior);
+int percorreCruzamento(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior);
 
-
-
-
-
-//return 0 achou a saida
-//return 1 deu ruim
-
+int percorreInteresse(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior);
 
 
 #endif
