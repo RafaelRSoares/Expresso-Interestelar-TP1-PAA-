@@ -11,6 +11,15 @@ typedef enum  {
     Oeste = 4
 }direcao; // Caso a direção seja 0 o caminho nao esta disponivel para passar
 
+typedef enum {
+    NORMAL,
+    WORMHOLE,
+    ASTEROIDE,
+    GAMMA,
+    REPAIR 
+}TipoEfeito; //complicações
+
+
 typedef struct {
     direcao Caminho;
     short Acesso;
@@ -39,6 +48,7 @@ typedef struct {
             curso CursoInteresse[QUANTIDADECAMINHOSINTERESSE];
             short Peca;
             short Saida;
+            TipoEfeito Efeito; //para as complicalções
         }Interesse;
 
         struct {

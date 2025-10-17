@@ -24,8 +24,8 @@ void inserePercurso(Percurso* lista, int linha, int coluna, int durabilidade, in
 
 void RemoverUlitmoPercruso(Percurso* lista);
 
-void imprimirLista(Percurso* lista, int pecasTotais);
+void imprimirLista(Percurso* lista);
 
-int TodasAsPecasForamColetadas(Percurso* lista, int pecasTotais);
+int TodasAsPecasForamColetadas(Percurso* lista);
 
 #endif
