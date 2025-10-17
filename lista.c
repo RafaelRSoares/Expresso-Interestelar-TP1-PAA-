@@ -60,13 +60,13 @@ void imprimirLista(Percurso* lista){
     }
 }
 
-int TodasAsPecasForamColetadas(Percurso* lista){
+int TodasAsPecasForamColetadas(Percurso* lista) {
     Apontador Aux = lista->Primeiro->Prox;
-    while (Aux != NULL){
-        if (Aux->PecasColetadas < 4){ 
-            return 1; 
+    while (Aux != NULL) {
+        if (Aux->PecasColetadas ==4) {
+            return 1;
         }
         Aux = Aux->Prox;
     }
-    return 0; 
+    return 0;
 }
