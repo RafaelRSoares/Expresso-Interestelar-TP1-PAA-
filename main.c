@@ -37,12 +37,12 @@ int main() {
 
         if (escolha == 1 || escolha == 4) {
             if (escolha == 4) {
-                modoAnalise = 1;
+                modoAnaliseAtivo = 1; // liga a flag
                 resetAnalise();
                 printf("\n[MODO DE ANALISE ATIVADO]\n");
-            } else {
-                modoAnalise = 0;
-            }
+        } else {
+            modoAnaliseAtivo = 0; //desliga
+        }
 
             char nome[STRING];
             printf("Digite o nome do arquivo: ");
@@ -92,7 +92,7 @@ int main() {
             if (resultado == 0 && verificacao == 0)
                 printf("A tripulacao finalizou sua jornada.\n\n");
 
-            if (modoAnalise == 1) {
+            if (modoAnaliseAtivo == 1) {
                 printf("\n=================== MODO DE ANALISE ===================\n");
                 printf("Total de chamadas recursivas: %d\n", totalChamadas);
                 printf("Nível maximo de recursao: %d\n", nivelMaximo);

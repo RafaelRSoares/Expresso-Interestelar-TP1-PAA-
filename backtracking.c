@@ -1,5 +1,8 @@
 #include "backtracking.h"
 
+extern int totalChamadas;
+extern int nivelMaximo;
+extern int modoAnaliseAtivo;
 
 void atualizaNave(nave* Nave, Informacoes* infos){
     Nave->PossicaoLinha = infos->Linha;
