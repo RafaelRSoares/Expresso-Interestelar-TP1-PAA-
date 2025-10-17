@@ -4,6 +4,10 @@
 
 void gerarMapa();
 
+char* gerarMapaUI(int escolha);
+
+char* gerarMapaUI2(int altura,  int largura, int pecas, int durabilidade, int movimentacao, int aumento);
+
 int gerarNumeroAleatorio(int limite);
 
 void gerarCaminhos(int altura, int largura, char mapa[altura][largura], int xInicial, int yInicial, int xFinal, int yFinal);

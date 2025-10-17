@@ -5,6 +5,9 @@
 #include "backtracking.h"
 #define STRING 20
 
+int LINHAS;
+int COLUNAS;
+
 //#define ANALISE
 
 #ifdef ANALISE

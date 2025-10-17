@@ -117,6 +117,169 @@ void gerarMapa(){
     }
 }
 
+char* gerarMapaUI(int escolha){
+    srand(time(NULL));
+    static int contador = 1;
+    static char nomeArquivo[50];
+    sprintf(nomeArquivo, "ArquivoGerado%d.txt", contador);
+    contador++;
+    FILE* file = fopen(nomeArquivo, "w");
+    int altura, largura, pecas, durabilidade, custo, aumento, contadorPecas=0, linha, coluna, xInicial, yInicial, xFinal, yFinal;
+    if(file){
+            switch (escolha)
+            {
+            case 1:
+                altura = rand() % 3 + 6;
+                largura =rand() % 3 + 6;
+                pecas = rand() % 2 + 2;
+                durabilidade = rand() % 11 + 50;
+                break;
+            case 2:
+                altura = rand() % 3 + 10;
+                largura =rand() % 3 + 10;
+                pecas = rand() % 2 + 4;
+                durabilidade = rand() % 11 + 35;
+                break;
+            case 3:
+                altura = rand() % 3 + 14;
+                largura =rand() % 3 + 14;
+                pecas = rand() % 2 + 7;
+                durabilidade = rand() % 11 + 25;
+                break;
+            default:
+                break;
+            }
+            custo = 5;
+            aumento = 10;
+        fprintf(file, "%d %d %d\n", durabilidade, custo, aumento);
+        fprintf(file, "%d %d\n",  altura, largura);
+        char mapa[altura][largura];
+        for(int i=0;i<altura;i++){
+            for(int j=0;j<largura;j++){
+                mapa[i][j] = '.';
+            }
+        }
+        for(int i=0;i<2;i++){
+            linha = gerarNumeroAleatorio(altura);
+            coluna = gerarNumeroAleatorio(largura);
+            if(mapa[linha][coluna] == '.'){
+                if(i == 0){
+                    mapa[linha][coluna] = 'X';
+                    xInicial = linha;
+                    yInicial = coluna;    
+                }
+                else{
+                    mapa[linha][coluna] = 'F'; 
+                    xFinal = linha;
+                    yFinal = coluna;  
+                }
+            }
+            else{
+                i--;
+            }
+        }
+        int cordenadasXP[pecas], cordenadasYP[pecas];
+        for(int i=0;i<pecas;i++){
+            linha = gerarNumeroAleatorio(altura);
+            coluna = gerarNumeroAleatorio(largura);
+            if(mapa[linha][coluna] == '.'){
+                mapa[linha][coluna] = 'P';
+                cordenadasXP[i] = linha;
+                cordenadasYP[i] = coluna;
+
+            }
+            else{
+                i--;
+            }
+        }
+        gerarCaminhos(altura, largura, mapa, xInicial, yInicial, xFinal, yFinal);
+        for(int j=0;j<pecas;j++){
+            gerarCaminhos(altura, largura, mapa, xInicial, yInicial, cordenadasXP[j], cordenadasYP[j]);
+        }
+        ajustarCruzamentos(altura, largura, mapa);
+
+        for(int i=0;i<altura;i++){
+            for(int j=0;j<largura;j++){
+                fprintf(file, "%c", mapa[i][j]);
+            }fprintf(file, "\n");
+        }
+        fclose(file);
+    }
+    else{
+        printf("Erro ao abrir o arquivo");
+    }
+    return nomeArquivo;
+}
+
+char* gerarMapaUI2(int altura,  int largura, int pecas, int durabilidade, int movimentacao, int aumento){
+    srand(time(NULL));
+    static int contador = 1;
+    static char nomeArquivo[50];
+    sprintf(nomeArquivo, "ArquivoGerado%d.txt", contador);
+    contador++;
+    FILE* file = fopen(nomeArquivo, "w");
+    int contadorPecas=0, linha, coluna, xInicial, yInicial, xFinal, yFinal;
+    if(file){
+    fprintf(file, "%d %d %d\n", durabilidade, movimentacao, aumento);
+        fprintf(file, "%d %d\n",  altura, largura);
+        char mapa[altura][largura];
+        for(int i=0;i<altura;i++){
+            for(int j=0;j<largura;j++){
+                mapa[i][j] = '.';
+            }
+        }
+        for(int i=0;i<2;i++){
+            linha = gerarNumeroAleatorio(altura);
+            coluna = gerarNumeroAleatorio(largura);
+            if(mapa[linha][coluna] == '.'){
+                if(i == 0){
+                    mapa[linha][coluna] = 'X';
+                    xInicial = linha;
+                    yInicial = coluna;    
+                }
+                else{
+                    mapa[linha][coluna] = 'F'; 
+                    xFinal = linha;
+                    yFinal = coluna;  
+                }
+            }
+            else{
+                i--;
+            }
+        }
+        int cordenadasXP[pecas], cordenadasYP[pecas];
+        for(int i=0;i<pecas;i++){
+            linha = gerarNumeroAleatorio(altura);
+            coluna = gerarNumeroAleatorio(largura);
+            if(mapa[linha][coluna] == '.'){
+                mapa[linha][coluna] = 'P';
+                cordenadasXP[i] = linha;
+                cordenadasYP[i] = coluna;
+
+            }
+            else{
+                i--;
+            }
+        }
+        gerarCaminhos(altura, largura, mapa, xInicial, yInicial, xFinal, yFinal);
+        for(int j=0;j<pecas;j++){
+            gerarCaminhos(altura, largura, mapa, xInicial, yInicial, cordenadasXP[j], cordenadasYP[j]);
+        }
+        ajustarCruzamentos(altura, largura, mapa);
+
+        for(int i=0;i<altura;i++){
+            for(int j=0;j<largura;j++){
+                fprintf(file, "%c", mapa[i][j]);
+            }fprintf(file, "\n");
+        }
+        fclose(file);
+    }
+    else{
+        printf("Erro ao abrir o arquivo");
+    }
+    return nomeArquivo;
+}
+
 void gerarCaminhos(int altura, int largura, char mapa[altura][largura], int xInicial, int yInicial, int xFinal, int yFinal) {
     int x = xInicial, y = yInicial;
     int prioridade = rand() % 2;
