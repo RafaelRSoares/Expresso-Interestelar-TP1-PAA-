@@ -10,6 +10,15 @@
 int LINHAS;
 int COLUNAS;
 
+int modoAnaliseAtivo = 0;
+int totalChamadas = 0;
+int nivelMaximo = 0;
+
+void resetAnalise() {
+    totalChamadas = 0;
+    nivelMaximo = 0;
+}
+
 GtkBuilder *builder;
 GtkWidget *window;
 GtkStack *stack;
@@ -150,6 +159,8 @@ void on_button_ler_arquivo_clicked(){
         }
     }
     fclose(arqEntrada);
+    resetAnalise();
+    modoAnaliseAtivo = 1;
     Percurso percurso;
     inicializarPercurso(&percurso);
     setMapa(Mapa,&Endurance);
@@ -214,6 +225,16 @@ void on_button_voltar_menu_clicked(){
 
 void on_button_analise_clicked(){
     gtk_stack_set_visible_child_name(stack, "view_analise_funcao");
+    char texto[256];
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(gtk_builder_get_object(builder, "text_analise")));
+    gtk_text_buffer_set_text(buffer, "", -1);
+    GtkTextIter end;
+    sprintf(texto, "Total de chamadas recursivas: %d\n", totalChamadas);
+    gtk_text_buffer_get_end_iter(buffer, &end);
+    gtk_text_buffer_insert(buffer, &end, texto, -1);
+    sprintf(texto, "Nivel maximo de recursao: %d\n", nivelMaximo);
+    gtk_text_buffer_get_end_iter(buffer, &end);
+    gtk_text_buffer_insert(buffer, &end, texto, -1); 
 }
 
 void on_button_voltar_menu2_clicked(){
