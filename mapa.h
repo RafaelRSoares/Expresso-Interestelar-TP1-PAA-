@@ -21,7 +21,6 @@ typedef enum {
     TEMPORAL_ANOMALY//Sempre por esse por ultimo
 }TipoEfeito; //complicações
 
-
 typedef struct {
     direcao Caminho;
     short Acesso;
