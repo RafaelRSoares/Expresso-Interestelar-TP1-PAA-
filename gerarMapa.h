@@ -4,9 +4,9 @@
 
 void gerarMapa();
 
-char* gerarMapaUI(int escolha);
+char* gerarMapaUI(int escolha, int escolha3);
 
-char* gerarMapaUI2(int altura,  int largura, int pecas, int durabilidade, int movimentacao, int aumento);
+char* gerarMapaUI2(int altura,  int largura, int pecas, int durabilidade, int movimentacao, int aumento, int escolha3);
 
 int gerarNumeroAleatorio(int limite);
 
