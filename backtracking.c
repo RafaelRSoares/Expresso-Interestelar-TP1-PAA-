@@ -99,11 +99,13 @@ int percorreInteresse(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* l
     if (celula->Interesse.Saida == VERDADEIRO){//retorna 0 se achou a saida
         return 0;
     }
+    short aux = 0;
     if (Nave->Consertado == FALSO){
         if (celula->Interesse.Peca == VERDADEIRO){
             Nave->Durabilidade += Nave->AumentoPorPeca;
             Nave->QuantidadePeca++;
             celula->Interesse.Peca = FALSO;
+            aux = 1;
         }    
         else if (DirecaoAnterior != Nulo && celula->Interesse.Peca == FALSO){//Pelo visto quando acha a peça nao perde vida
             Nave->Durabilidade -= Nave->DanoPorSetor;
@@ -135,7 +137,9 @@ int percorreInteresse(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* l
             atualizaNave(Nave,lista->Ultimo);
             RemoverUlitmoPercruso(lista);    
         }
-
+        if (aux)
+                celula->Interesse.Peca = VERDADEIRO;
+    
     }
     /*2° Caso de falha */
     //Nao tem caminhos percorriveis
@@ -154,7 +158,54 @@ int percorreEventoEspecial(quadrante **Mapa, quadrante* celula, nave* Nave, Perc
         case WORMHOLE: // Buraco de minhoca
             printf("[!] Buraco de minhoca detectado! A nave foi teletransportada!\n");
             celula->Especial.Efeito = NORMAL;
-            return movimentar(Mapa, Nave, lista, Gargantua);
+
+            inserePercurso(lista,Nave->PossicaoLinha,Nave->PossicaoColuna,Nave->Durabilidade,Nave->QuantidadePeca,Nave->Consertado);
+
+            if(!movimentar(Mapa, Nave, lista, Gargantua))
+                return 0;
+
+                
+            atualizaNave(Nave,lista->Ultimo);
+            RemoverUlitmoPercruso(lista);
+
+            if (Nave->Consertado == FALSO){ 
+                    if (DirecaoAnterior != Nulo && celula->Especial.Peca == FALSO){//Pelo visto quando acha a peça nao perde vida
+                        Nave->Durabilidade -= Nave->DanoPorSetor;
+                    }
+                }
+            /*1° Caso de falha */
+            if (verificaNave(Nave) == 0){//Nave nao tem durabilidade
+                atualizaNave(Nave,lista->Ultimo);
+                RemoverUlitmoPercruso(lista);
+                // Desfazer o caminho
+                return 1;
+            }
+
+
+            for (int i = 0; i < QUANTIDADECAMINHOSESPECIAL; i++){
+                //se pode acessar aquele caimnho chama de novo
+                //Mecher dentro desse if caso a vida da nave nao conte
+                if (celula->Cruzamento.CursoCrusamento[i].Caminho != DirecaoAnterior && celula->Cruzamento.CursoCrusamento[i].Acesso == VERDADEIRO){
+                    if (Nave->Consertado == VERDADEIRO)
+                        celula->Especial.CursoEspecial[i].Acesso = FALSO;
+                    //se o proximo caminho retorna 0 achou a saida e vai retornando ai 
+                    
+                    inserePercurso(lista,Nave->PossicaoLinha,Nave->PossicaoColuna,Nave->Durabilidade,Nave->QuantidadePeca,Nave->Consertado);
+                    
+                    if (!movimentar(Mapa,Nave,lista,inverteDirecao(celula->Especial.CursoEspecial[i].Caminho))){
+                        return 0;
+                    }
+                    // se nao achou a saida tenta outro caminho 
+                    atualizaNave(Nave,lista->Ultimo);
+                    RemoverUlitmoPercruso(lista);    
+                }
+
+            }
+            /*2° Caso de falha */
+            //Nao tem caminhos percorriveis
+            atualizaNave(Nave,lista->Ultimo);
+            RemoverUlitmoPercruso(lista);    
+            return 1;
             break;
 
 
@@ -317,7 +368,6 @@ int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnter
         if (nivelAtual > nivelMaximo)
             nivelMaximo = nivelAtual;
     }
-
     /*Modifica a possicao da nave*/
     switch (DirecaoAnterior)
     {
@@ -344,7 +394,7 @@ int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnter
         Nave->PossicaoColuna = ColunaNave;
         printf("[!]Possicao alterada para [%d][%d]\n",Nave->PossicaoLinha,Nave->PossicaoColuna);//APAGAR DEPOIS
     }
-
+    imprimeNave(Nave);
     inserePercurso(lista,Nave->PossicaoLinha,Nave->PossicaoColuna,Nave->Durabilidade,Nave->QuantidadePeca,Nave->Consertado);
     
     LinhaNave = Nave->PossicaoLinha;
