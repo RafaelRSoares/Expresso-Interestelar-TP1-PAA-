@@ -143,12 +143,6 @@ void gerarMapa(){
                 fprintf(file, "%c", mapa[i][j]);
             }fprintf(file, "\n");
         }
-
-        for(int i=0;i<altura;i++){
-            for(int j=0;j<largura;j++){
-                printf("%c ", mapa[i][j]);
-            }printf( "\n");
-        }
         
         fclose(file);
     }
@@ -157,7 +151,7 @@ void gerarMapa(){
     }
 }
 
-char* gerarMapaUI(int escolha){
+char* gerarMapaUI(int escolha, int escolha3){
     srand(time(NULL));
     static int contador = 1;
     static char nomeArquivo[50];
@@ -236,8 +230,39 @@ char* gerarMapaUI(int escolha){
         for(int j=0;j<pecas;j++){
             gerarCaminhos(altura, largura, mapa, xInicial, yInicial, cordenadasXP[j], cordenadasYP[j]);
         }
-        ajustarCruzamentos(altura, largura, mapa);
-
+        
+        //complicações e bônus
+        if(escolha3 == 1){
+        int totalExtras = (altura * largura) / 10; //10% do mapa, pra não ser muito
+        for (int k = 0; k < totalExtras; k++){
+            linha = gerarNumeroAleatorio(altura);
+            coluna = gerarNumeroAleatorio(largura);
+            if(mapa[linha][coluna] == '.'){
+                int tipoExtra = rand() % 4;
+                switch (tipoExtra)
+                {
+                case 0: //Buraco de minhoca (benefico ou random)
+                    mapa[linha][coluna] = 'W'; //"W" de Wormhole
+                    gerarCaminhos(altura, largura, mapa, xInicial, yInicial, linha, coluna);
+                    break;
+                case 1: //Asteroide (prejudicial)
+                    mapa[linha][coluna] = 'A';
+                    gerarCaminhos(altura, largura, mapa, xInicial, yInicial, linha, coluna);
+                    break;
+                case 2: //Raio gama (gamma ray burst, insta-kill)
+                    mapa[linha][coluna] = 'G';
+                    gerarCaminhos(altura, largura, mapa, xInicial, yInicial, linha, coluna);
+                    break;
+                case 3: //Estação de reabastecimento (ajuda)
+                    mapa[linha][coluna] = 'R';
+                    gerarCaminhos(altura, largura, mapa, xInicial, yInicial, linha, coluna);
+                    break;
+                default:
+                    break;
+                }
+            }
+        }}
+    ajustarCruzamentos(altura, largura, mapa);
         for(int i=0;i<altura;i++){
             for(int j=0;j<largura;j++){
                 fprintf(file, "%c", mapa[i][j]);
@@ -251,7 +276,7 @@ char* gerarMapaUI(int escolha){
     return nomeArquivo;
 }
 
-char* gerarMapaUI2(int altura,  int largura, int pecas, int durabilidade, int movimentacao, int aumento){
+char* gerarMapaUI2(int altura,  int largura, int pecas, int durabilidade, int movimentacao, int aumento, int escolha3){
     srand(time(NULL));
     static int contador = 1;
     static char nomeArquivo[50];
@@ -305,8 +330,39 @@ char* gerarMapaUI2(int altura,  int largura, int pecas, int durabilidade, int mo
         for(int j=0;j<pecas;j++){
             gerarCaminhos(altura, largura, mapa, xInicial, yInicial, cordenadasXP[j], cordenadasYP[j]);
         }
-        ajustarCruzamentos(altura, largura, mapa);
-
+        
+        //complicações e bônus
+        if(escolha3 == 1){
+        int totalExtras = (altura * largura) / 10; //10% do mapa, pra não ser muito
+        for (int k = 0; k < totalExtras; k++){
+            linha = gerarNumeroAleatorio(altura);
+            coluna = gerarNumeroAleatorio(largura);
+            if(mapa[linha][coluna] == '.'){
+                int tipoExtra = rand() % 4;
+                switch (tipoExtra)
+                {
+                case 0: //Buraco de minhoca (benefico ou random)
+                    mapa[linha][coluna] = 'W'; //"W" de Wormhole
+                    gerarCaminhos(altura, largura, mapa, xInicial, yInicial, linha, coluna);
+                    break;
+                case 1: //Asteroide (prejudicial)
+                    mapa[linha][coluna] = 'A';
+                    gerarCaminhos(altura, largura, mapa, xInicial, yInicial, linha, coluna);
+                    break;
+                case 2: //Raio gama (gamma ray burst, insta-kill)
+                    mapa[linha][coluna] = 'G';
+                    gerarCaminhos(altura, largura, mapa, xInicial, yInicial, linha, coluna);
+                    break;
+                case 3: //Estação de reabastecimento (ajuda)
+                    mapa[linha][coluna] = 'R';
+                    gerarCaminhos(altura, largura, mapa, xInicial, yInicial, linha, coluna);
+                    break;
+                default:
+                    break;
+                }
+            }
+        }}
+    ajustarCruzamentos(altura, largura, mapa);
         for(int i=0;i<altura;i++){
             for(int j=0;j<largura;j++){
                 fprintf(file, "%c", mapa[i][j]);

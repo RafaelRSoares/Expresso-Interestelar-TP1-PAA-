@@ -10,6 +10,8 @@
 int LINHAS;
 int COLUNAS;
 
+int escolha3 = 0;
+
 int modoAnaliseAtivo = 0;
 int totalChamadas = 0;
 int nivelMaximo = 0;
@@ -189,13 +191,13 @@ void on_button_ler_arquivo_clicked(){
 }
 
 void on_button_dificuldades_clicked(){
-    gtk_stack_set_visible_child_name(stack, "view_dificuldades");
+    gtk_stack_set_visible_child_name(stack, "view_complicacoes");
 }
 void on_button_total_clicked(){
-    gtk_stack_set_visible_child_name(stack, "view_parametros");
+    gtk_stack_set_visible_child_name(stack, "view_complicacoes1");
 }
 void on_button_facil_clicked(){
-    char* nomeArquivo = gerarMapaUI(1);
+    char* nomeArquivo = gerarMapaUI(1, escolha3);
     char texto[200];
     sprintf(texto, "O seu mapa na dificuldade fácil foi gerado com o nome: %s\nVeja sua pré visualização na tela seguinte", nomeArquivo);
     mensagemB("Mapa gerado", texto);
@@ -203,7 +205,7 @@ void on_button_facil_clicked(){
     imprimirPreVisualizacaoMapa(nomeArquivo);
 }
 void on_button_medio_clicked(){
-    char* nomeArquivo = gerarMapaUI(2);
+    char* nomeArquivo = gerarMapaUI(2, escolha3);
     char texto[200];
     sprintf(texto, "O seu mapa na dificuldade médio foi gerado com o nome: %s\nVeja sua pré visualização na tela seguinte", nomeArquivo);
     mensagemB("Mapa gerado", texto);
@@ -211,7 +213,7 @@ void on_button_medio_clicked(){
     imprimirPreVisualizacaoMapa(nomeArquivo);
 }
 void on_button_dificil_clicked(){
-    char* nomeArquivo = gerarMapaUI(3);
+    char* nomeArquivo = gerarMapaUI(3, escolha3);
     char texto[200];
     sprintf(texto, "O seu mapa na dificuldade difícil foi gerado com o nome: %s\nVeja sua pré visualização na tela seguinte", nomeArquivo);
     mensagemB("Mapa gerado", texto);
@@ -258,12 +260,32 @@ void on_button_enviar_parametros_clicked(){
     int movimentacao = atoi(movimentacao_texto);
     const char *aumento_texto = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "aumento")));
     int aumento = atoi(aumento_texto);
-    char* nomeArquivo = gerarMapaUI2(altura, largura, pecas, durabilidade, movimentacao, aumento);
+    char* nomeArquivo = gerarMapaUI2(altura, largura, pecas, durabilidade, movimentacao, aumento, escolha3);
     char texto[200];
     sprintf(texto, "O seu mapa foi gerado com o nome: %s\nVeja sua pré visualização na tela seguinte", nomeArquivo);
     mensagemB("Mapa gerado", texto);
     gtk_stack_set_visible_child_name(stack, "view_pre_mapa");
     imprimirPreVisualizacaoMapa(nomeArquivo);
+}
+
+void on_button_sem_complicacoes_clicked(){
+    escolha3 = 0;
+    gtk_stack_set_visible_child_name(stack, "view_dificuldades");
+}
+
+void on_button_complicacoes_clicked(){
+    escolha3 = 1;
+    gtk_stack_set_visible_child_name(stack, "view_dificuldades");
+}
+
+void on_button_sem_complicacoes1_clicked(){
+    escolha3 = 0;
+    gtk_stack_set_visible_child_name(stack, "view_parametros");
+}
+
+void on_button_complicacoes1_clicked(){
+    escolha3 = 1;
+    gtk_stack_set_visible_child_name(stack, "view_parametros");
 }
 
 int main(int argc, char **argv){
@@ -287,6 +309,10 @@ int main(int argc, char **argv){
         "on_button_analise_clicked", G_CALLBACK(on_button_analise_clicked),
         "on_button_voltar_menu2_clicked", G_CALLBACK(on_button_voltar_menu2_clicked),
         "on_button_voltar_menu3_clicked", G_CALLBACK(on_button_voltar_menu3_clicked),
+        "on_button_sem_complicacoes_clicked", G_CALLBACK(on_button_sem_complicacoes_clicked),
+        "on_button_complicacoes_clicked", G_CALLBACK(on_button_complicacoes_clicked),
+        "on_button_sem_complicacoes1_clicked", G_CALLBACK(on_button_sem_complicacoes1_clicked),
+        "on_button_complicacoes1_clicked", G_CALLBACK(on_button_complicacoes1_clicked),
         NULL);
         gtk_builder_connect_signals(builder,NULL);
         stack = GTK_STACK(gtk_builder_get_object(builder, "stack"));
