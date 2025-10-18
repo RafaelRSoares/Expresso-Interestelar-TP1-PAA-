@@ -3,6 +3,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>
+#include <time.h>
 #include "gerarMapa.h"
 #include "backtracking.h"
 #define STRING 20
@@ -288,6 +289,7 @@ void on_button_complicacoes1_clicked(){
 }
 
 int main(int argc, char **argv){
+    srand(time(NULL));
     gtk_init(&argc, &argv);
     builder = gtk_builder_new_from_file("ui.glade");
     gtk_builder_add_callback_symbols(

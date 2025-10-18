@@ -87,8 +87,9 @@ int main() {
             int resultado = movimentar(Mapa, &Endurance, &percurso, Nulo);
             if (resultado == 1)
                 printf("\nApesar da bravura, a tripulacao falhou em sua jornada.\n");
+            else 
+                imprimirLista(&percurso);
             
-            imprimirLista(&percurso);
             printf("\n");
 
             int verificacao = TodasAsPecasForamColetadas(&percurso);
@@ -106,8 +107,6 @@ int main() {
             for (int i = 0; i < LINHAS; i++)
                 free(Mapa[i]);
             free(Mapa);
-
-
             break;
         }
 
