@@ -149,14 +149,12 @@ int percorreInteresse(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* l
 }
 
 int percorreEventoEspecial(quadrante **Mapa, quadrante* celula, nave* Nave, Percurso* lista, direcao DirecaoAnterior) {
-    if (celula->Especial.Efeito == TEMPORAL_ANOMALY){
-        celula->Especial.Efeito = rand() % TEMPORAL_ANOMALY + 1;
-        printf("[T]Anomalia temporal categoria: %d\n",celula->Especial.Efeito);   
-    }
+    if (celula->Especial.Efeito == TEMPORAL_ANOMALY)
+        celula->Especial.Efeito = rand() % TEMPORAL_ANOMALY + 1;   
+    
     
     switch (celula->Especial.Efeito) {
         case WORMHOLE: // Buraco de minhoca
-            printf("[!] Buraco de minhoca detectado! A nave foi teletransportada!\n");
             celula->Especial.Efeito = NORMAL;
 
             inserePercurso(lista,Nave->PossicaoLinha,Nave->PossicaoColuna,Nave->Durabilidade,Nave->QuantidadePeca,Nave->Consertado);
@@ -164,7 +162,7 @@ int percorreEventoEspecial(quadrante **Mapa, quadrante* celula, nave* Nave, Perc
             if(!movimentar(Mapa, Nave, lista, Gargantua))
                 return 0;
 
-                
+
             atualizaNave(Nave,lista->Ultimo);
             RemoverUlitmoPercruso(lista);
 
@@ -210,7 +208,6 @@ int percorreEventoEspecial(quadrante **Mapa, quadrante* celula, nave* Nave, Perc
 
 
         case ASTEROIDE: // Asteroide
-            printf("[!] Campo de asteroides! Dano elevado!\n");
             Nave->Durabilidade -= (Nave->DanoPorSetor * 2);
             celula->Especial.Efeito = NORMAL;
 
@@ -256,7 +253,6 @@ int percorreEventoEspecial(quadrante **Mapa, quadrante* celula, nave* Nave, Perc
             break;
 
         case GAMMA: // Raio gama
-            printf("[X] Raio gama detectado! A nave foi destruida instantaneamente!\n");
             celula->Especial.Efeito = NORMAL;
             Nave->Durabilidade = 0;
             atualizaNave(Nave,lista->Ultimo);// verificar isso atualizaçao aqui
@@ -266,7 +262,6 @@ int percorreEventoEspecial(quadrante **Mapa, quadrante* celula, nave* Nave, Perc
 
 
         case REPAIR: // Reator de reparo
-            printf("[+] Reator de reparo encontrado! Durabilidade aumentada!\n");
             Nave->Durabilidade += (Nave->AumentoPorPeca * 2);
             celula->Especial.Efeito = NORMAL;
             /*1° Caso de falha */
@@ -392,9 +387,7 @@ int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnter
         }
         Nave->PossicaoLinha = LinhaNave;
         Nave->PossicaoColuna = ColunaNave;
-        printf("[!]Possicao alterada para [%d][%d]\n",Nave->PossicaoLinha,Nave->PossicaoColuna);//APAGAR DEPOIS
     }
-    imprimeNave(Nave);
     inserePercurso(lista,Nave->PossicaoLinha,Nave->PossicaoColuna,Nave->Durabilidade,Nave->QuantidadePeca,Nave->Consertado);
     
     LinhaNave = Nave->PossicaoLinha;

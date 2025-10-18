@@ -87,6 +87,7 @@ int main() {
             int resultado = movimentar(Mapa, &Endurance, &percurso, Nulo);
             if (resultado == 1)
                 printf("\nApesar da bravura, a tripulacao falhou em sua jornada.\n");
+            
             imprimirLista(&percurso);
             printf("\n");
 
