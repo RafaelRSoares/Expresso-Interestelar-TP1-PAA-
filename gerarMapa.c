@@ -466,7 +466,6 @@ void ajustarCruzamentos(int altura, int largura, char mapa[altura][largura]) {
     }
 }
 
-
 int gerarNumeroAleatorio(int limite){
     return rand() % limite;
 }

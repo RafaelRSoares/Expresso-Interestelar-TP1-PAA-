@@ -57,7 +57,14 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
+<<<<<<< HEAD
     "stdlib.h": "c"
   },
   "makefile.configureOnOpen": true
+=======
+    "stdlib.h": "c",
+    "mapa.h": "c",
+    "nave.h": "c"
+  }
+>>>>>>> Zury
 }

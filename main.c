@@ -81,7 +81,6 @@ int main() {
             Percurso percurso;
             inicializarPercurso(&percurso);
             setMapa(Mapa, &Endurance);
-
             int resultado = movimentar(Mapa, &Endurance, &percurso, Nulo);
             if (resultado == 1)
                 printf("\nApesar da bravura, a tripulacao falhou em sua jornada.\n");
@@ -104,11 +103,14 @@ int main() {
             for (int i = 0; i < LINHAS; i++)
                 free(Mapa[i]);
             free(Mapa);
+
+
+            break;
         }
 
         if (escolha == 2) {
             gerarMapa();
-        }
+        }    
     }
 
     return 0;

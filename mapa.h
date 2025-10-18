@@ -8,7 +8,8 @@ typedef enum  {
     Norte = 1,
     Sul = 2,
     Leste = 3,
-    Oeste = 4
+    Oeste = 4,
+    Gargantua = 5
 }direcao; // Caso a direção seja 0 o caminho nao esta disponivel para passar
 
 typedef enum {
@@ -16,7 +17,8 @@ typedef enum {
     WORMHOLE,
     ASTEROIDE,
     GAMMA,
-    REPAIR 
+    REPAIR,
+    TEMPORAL_ANOMALY//Sempre por esse por ultimo
 }TipoEfeito; //complicações
 
 
@@ -48,13 +50,13 @@ typedef struct {
             curso CursoInteresse[QUANTIDADECAMINHOSINTERESSE];
             short Peca;
             short Saida;
-            TipoEfeito Efeito; //para as complicalções
         }Interesse;
 
         struct {
-            curso CaminhosEspecial[QUANTIDADECAMINHOSESPECIAL];
+            curso CursoEspecial[QUANTIDADECAMINHOSESPECIAL];
             short Peca;
             short Saida;
+            TipoEfeito Efeito; //para as complicalções
         }Especial;
         
     };
@@ -71,6 +73,7 @@ void setQuadranteNula(quadrante* celula);
 void setQuadranteRua(quadrante* celula);
 void setQuadranteCruzamento(quadrante **Mapa, int i, int j);
 void setQuadranteDeInteresse(quadrante **Mapa, int i, int j); 
+void setQuadranteEspecial(quadrante **Mapa, int i, int j);
 
 void setMapa(quadrante **Mapa, nave* Nave);
 

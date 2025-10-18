@@ -23,11 +23,13 @@ int percorreRua(quadrante **Mapa,quadrante* celula,nave* Nave,Percurso* lista,di
     //     Nave->QuantidadePeca++;
     //     celula->Rua.Peca = FALSO;
     // }
-    
-    if (DirecaoAnterior != Nulo && celula->Rua.Peca == FALSO){//Pelo visto quando acha a peça nao perde vida
-        Nave->Durabilidade -= Nave->DanoPorSetor;
+    if (Nave->Consertado == FALSO){    
+        if (DirecaoAnterior != Nulo && celula->Rua.Peca == FALSO){//Pelo visto quando acha a peça nao perde vida
+            Nave->Durabilidade -= Nave->DanoPorSetor;
+        }
     }
     /*1° Caso de falha */
+
     if (verificaNave(Nave) == 0){//Nave nao tem durabilidade
         atualizaNave(Nave,lista->Ultimo);
         RemoverUlitmoPercruso(lista);
@@ -67,16 +69,17 @@ int percorreCruzamento(quadrante **Mapa ,quadrante* celula,nave* Nave,Percurso* 
     //NÃO APAGAR - PEDRO
     // if (celula->Cruzamento.Saida == VERDADEIRO){//retorna 0 se achou a saida
     //     return 0;
-    // }
+    // }Buraco de minhoca detectado! 
 
     // if (celula->Cruzamento.Peca == VERDADEIRO){
     //     Nave->Durabilidade += Nave->AumentoPorPeca;
     //     Nave->QuantidadePeca++;
     //     celula->Cruzamento.Peca = FALSO;
     // }
-    
-    if (DirecaoAnterior != Nulo && celula->Cruzamento.Peca == FALSO){//Pelo visto quando acha a peça nao perde vida
-        Nave->Durabilidade -= Nave->DanoPorSetor;
+    if (Nave->Consertado == FALSO){ 
+        if (DirecaoAnterior != Nulo && celula->Cruzamento.Peca == FALSO){//Pelo visto quando acha a peça nao perde vida
+            Nave->Durabilidade -= Nave->DanoPorSetor;
+        }
     }
     /*1° Caso de falha */
     if (verificaNave(Nave) == 0){//Nave nao tem durabilidade
@@ -118,15 +121,15 @@ int percorreInteresse(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* l
     if (celula->Interesse.Saida == VERDADEIRO){//retorna 0 se achou a saida
         return 0;
     }
-
-    if (celula->Interesse.Peca == VERDADEIRO){
-        Nave->Durabilidade += Nave->AumentoPorPeca;
-        Nave->QuantidadePeca++;
-        celula->Interesse.Peca = FALSO;
-    }
-    
-    if (DirecaoAnterior != Nulo && celula->Interesse.Peca == FALSO){//Pelo visto quando acha a peça nao perde vida
-        Nave->Durabilidade -= Nave->DanoPorSetor;
+    if (Nave->Consertado == FALSO){
+        if (celula->Interesse.Peca == VERDADEIRO){
+            Nave->Durabilidade += Nave->AumentoPorPeca;
+            Nave->QuantidadePeca++;
+            celula->Interesse.Peca = FALSO;
+        }    
+        else if (DirecaoAnterior != Nulo && celula->Interesse.Peca == FALSO){//Pelo visto quando acha a peça nao perde vida
+            Nave->Durabilidade -= Nave->DanoPorSetor;
+        }
     }
     /*1° Caso de falha */
     if (verificaNave(Nave) == 0){//Nave nao tem durabilidade
@@ -163,34 +166,159 @@ int percorreInteresse(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* l
 }
 
 int percorreEventoEspecial(quadrante **Mapa, quadrante* celula, nave* Nave, Percurso* lista, direcao DirecaoAnterior) {
-    switch (celula->Tipo) {
-        case 'B': // Buraco de minhoca
+    if (celula->Especial.Efeito == TEMPORAL_ANOMALY){
+        celula->Especial.Efeito = rand() % TEMPORAL_ANOMALY + 1;
+        printf("[T]Anomalia temporal categoria: %d\n",celula->Especial.Efeito);
+        
+    }
+    
+    switch (celula->Especial.Efeito) {
+        case WORMHOLE: // Buraco de minhoca
             printf("[!] Buraco de minhoca detectado! A nave foi teletransportada!\n");
-            Nave->PossicaoLinha = rand() % LINHAS;
-            Nave->PossicaoColuna = rand() % COLUNAS;
+            celula->Especial.Efeito = NORMAL;
+            return movimentar(Mapa, Nave, lista, Gargantua);
             break;
 
-        case 'A': // Asteroide
+
+        case ASTEROIDE: // Asteroide
             printf("[!] Campo de asteroides! Dano elevado!\n");
             Nave->Durabilidade -= (Nave->DanoPorSetor * 2);
+            celula->Especial.Efeito = NORMAL;
+
+            if (Nave->Consertado == FALSO){ 
+                    if (DirecaoAnterior != Nulo && celula->Especial.Peca == FALSO){//Pelo visto quando acha a peça nao perde vida
+                        Nave->Durabilidade -= Nave->DanoPorSetor;
+                    }
+                }
+            /*1° Caso de falha */
+            if (verificaNave(Nave) == 0){//Nave nao tem durabilidade
+                atualizaNave(Nave,lista->Ultimo);
+                RemoverUlitmoPercruso(lista);
+                // Desfazer o caminho
+                return 1;
+            }
+
+
+            for (int i = 0; i < QUANTIDADECAMINHOSESPECIAL; i++){
+                //se pode acessar aquele caimnho chama de novo
+                //Mecher dentro desse if caso a vida da nave nao conte
+                if (celula->Cruzamento.CursoCrusamento[i].Caminho != DirecaoAnterior && celula->Cruzamento.CursoCrusamento[i].Acesso == VERDADEIRO){
+                    if (Nave->Consertado == VERDADEIRO)
+                        celula->Especial.CursoEspecial[i].Acesso == FALSO;
+                    //se o proximo caminho retorna 0 achou a saida e vai retornando ai 
+                    
+                    inserePercurso(lista,Nave->PossicaoLinha,Nave->PossicaoColuna,Nave->Durabilidade,Nave->QuantidadePeca,Nave->Consertado);
+                    
+                    if (!movimentar(Mapa,Nave,lista,inverteDirecao(celula->Especial.CursoEspecial[i].Caminho))){
+                        return 0;
+                    }
+                    // se nao achou a saida tenta outro caminho 
+                    atualizaNave(Nave,lista->Ultimo);
+                    RemoverUlitmoPercruso(lista);    
+                }
+
+            }
+            /*2° Caso de falha */
+            //Nao tem caminhos percorriveis
+            atualizaNave(Nave,lista->Ultimo);
+            RemoverUlitmoPercruso(lista);    
+            return 1;
+
             break;
 
-        case 'G': // Raio gama
-            printf("[X] Raio gama detectado! A nave foi destruída instantaneamente!\n");
+        case GAMMA: // Raio gama
+            printf("[X] Raio gama detectado! A nave foi destruida instantaneamente!\n");
+            celula->Especial.Efeito = NORMAL;
             Nave->Durabilidade = 0;
+            atualizaNave(Nave,lista->Ultimo);// verificar isso atualizaçao aqui
+            RemoverUlitmoPercruso(lista);
             return 1; // fim da execução
             break;
 
-        case 'R': // Reator de reparo
+
+        case REPAIR: // Reator de reparo
             printf("[+] Reator de reparo encontrado! Durabilidade aumentada!\n");
             Nave->Durabilidade += (Nave->AumentoPorPeca * 2);
+            celula->Especial.Efeito = NORMAL;
+            /*1° Caso de falha */
+            if (verificaNave(Nave) == 0){//Nave nao tem durabilidade
+                atualizaNave(Nave,lista->Ultimo);
+                RemoverUlitmoPercruso(lista);
+                // Desfazer o caminho
+                return 1;
+            }
+
+            for (int i = 0; i < QUANTIDADECAMINHOSESPECIAL; i++){
+                //se pode acessar aquele caimnho chama de novo
+                //Mecher dentro desse if caso a vida da nave nao conte
+                if (celula->Cruzamento.CursoCrusamento[i].Caminho != DirecaoAnterior && celula->Cruzamento.CursoCrusamento[i].Acesso == VERDADEIRO){
+                    if (Nave->Consertado == VERDADEIRO)
+                        celula->Especial.CursoEspecial[i].Acesso == FALSO;
+                    //se o proximo caminho retorna 0 achou a saida e vai retornando ai 
+                    
+                    inserePercurso(lista,Nave->PossicaoLinha,Nave->PossicaoColuna,Nave->Durabilidade,Nave->QuantidadePeca,Nave->Consertado);
+                    
+                    if (!movimentar(Mapa,Nave,lista,inverteDirecao(celula->Especial.CursoEspecial[i].Caminho))){
+                        return 0;
+                    }
+                    // se nao achou a saida tenta outro caminho 
+                    atualizaNave(Nave,lista->Ultimo);
+                    RemoverUlitmoPercruso(lista);    
+                }
+
+            }
+            /*2° Caso de falha */
+            //Nao tem caminhos percorriveis
+            atualizaNave(Nave,lista->Ultimo);
+            RemoverUlitmoPercruso(lista);    
+            return 1;          
             break;
 
-        default:
+        default://Normal
+            printf("[T]Quadrante especial sem eventos especiais\n");
+            if (Nave->Consertado == FALSO){ 
+                    if (DirecaoAnterior != Nulo && celula->Especial.Peca == FALSO){//Pelo visto quando acha a peça nao perde vida
+                        Nave->Durabilidade -= Nave->DanoPorSetor;
+                    }
+                }
+                /*1° Caso de falha */
+                if (verificaNave(Nave) == 0){//Nave nao tem durabilidade
+                    atualizaNave(Nave,lista->Ultimo);
+                    RemoverUlitmoPercruso(lista);
+                    // Desfazer o caminho
+                    return 1;
+                }
+
+
+                for (int i = 0; i < QUANTIDADECAMINHOSESPECIAL; i++){
+                    //se pode acessar aquele caimnho chama de novo
+                    //Mecher dentro desse if caso a vida da nave nao conte
+                    if (celula->Cruzamento.CursoCrusamento[i].Caminho != DirecaoAnterior && celula->Cruzamento.CursoCrusamento[i].Acesso == VERDADEIRO){
+                        if (Nave->Consertado == VERDADEIRO)
+                            celula->Especial.CursoEspecial[i].Acesso == FALSO;
+                        //se o proximo caminho retorna 0 achou a saida e vai retornando ai 
+                        
+                        inserePercurso(lista,Nave->PossicaoLinha,Nave->PossicaoColuna,Nave->Durabilidade,Nave->QuantidadePeca,Nave->Consertado);
+                        
+                        if (!movimentar(Mapa,Nave,lista,inverteDirecao(celula->Especial.CursoEspecial[i].Caminho))){
+                            return 0;
+                        }
+                        // se nao achou a saida tenta outro caminho 
+                        atualizaNave(Nave,lista->Ultimo);
+                        RemoverUlitmoPercruso(lista);    
+                    }
+
+                }
+                /*2° Caso de falha */
+                //Nao tem caminhos percorriveis
+                atualizaNave(Nave,lista->Ultimo);
+                RemoverUlitmoPercruso(lista);    
+                return 1;        
             break;
     }
 
     if (verificaNave(Nave) == 0) {
+        atualizaNave(Nave,lista->Ultimo);// verificar isso atualizaçao aqui
         RemoverUlitmoPercruso(lista);
         return 1;
     }
@@ -199,9 +327,9 @@ int percorreEventoEspecial(quadrante **Mapa, quadrante* celula, nave* Nave, Perc
 }
 
 int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnterior){
-//modo analise
+    //modo analise
     static int nivelAtual = 0;
-
+    
     // Contagem dinâmica de análise
     if (modoAnaliseAtivo) {
         totalChamadas++;
@@ -225,6 +353,10 @@ int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnter
     case Oeste:
         Nave->PossicaoColuna++;
         break;
+    case Gargantua:
+        Nave->PossicaoLinha = rand() % LINHAS;
+        Nave->PossicaoColuna = rand() % COLUNAS;
+        printf("[!]Possicao alterada para [%d][%d]\n",Nave->PossicaoLinha,Nave->PossicaoColuna);//APAGAR DEPOIS
     }
 
     inserePercurso(lista,Nave->PossicaoLinha,Nave->PossicaoColuna,Nave->Durabilidade,Nave->QuantidadePeca,Nave->Consertado);
@@ -258,3 +390,42 @@ int movimentar(quadrante **Mapa, nave* Nave,Percurso* lista,direcao DirecaoAnter
 
     return resultado;
 }
+
+
+
+// int percorreEventoEspecial(quadrante **Mapa, quadrante* celula, nave* Nave, Percurso* lista, direcao DirecaoAnterior) {
+//     todos os celulas.tipo sao # ia ser sempre o default
+//      switch (celula->Tipo) {
+//         case 'B': // Buraco de minhoca
+//             printf("[!] Buraco de minhoca detectado! A nave foi teletransportada!\n");
+//             Nave->PossicaoLinha = rand() % LINHAS;
+//             Nave->PossicaoColuna = rand() % COLUNAS;
+//             break;
+
+//         case 'A': // Asteroide
+//             printf("[!] Campo de asteroides! Dano elevado!\n");
+//             Nave->Durabilidade -= (Nave->DanoPorSetor * 2);
+//             break;
+
+//         case 'G': // Raio gama
+//             printf("[X] Raio gama detectado! A nave foi destruída instantaneamente!\n");
+//             Nave->Durabilidade = 0;
+//             return 1; // fim da execução
+//             break;
+
+//         case 'R': // Reator de reparo
+//             printf("[+] Reator de reparo encontrado! Durabilidade aumentada!\n");
+//             Nave->Durabilidade += (Nave->AumentoPorPeca * 2);
+//             break;
+
+//         default:
+//             break;
+//     }
+
+//     if (verificaNave(Nave) == 0) {
+//         RemoverUlitmoPercruso(lista);
+//         return 1;
+//     }
+
+//     return movimentar(Mapa, Nave, lista, DirecaoAnterior);
+// }

@@ -176,7 +176,6 @@ void on_button_ler_arquivo_clicked(){
     if (resultado == 0){
     imprimirListaUI(&percurso);
     }
-    g_print("%d\n", TodasAsPecasForamColetadas(&percurso));
     int verificacao = TodasAsPecasForamColetadas(&percurso);
     if(resultado == 1){
         sprintf(texto, "\nApesar da bravura a tripulacao falhou em sua jornada\n");
