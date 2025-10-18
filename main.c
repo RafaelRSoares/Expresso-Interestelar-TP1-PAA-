@@ -6,6 +6,9 @@
 #include "backtracking.h"
 #define STRING 20
 
+int LINHAS;
+int COLUNAS;
+
 //Variáveis para análise
 int modoAnaliseAtivo = 0;
 int totalChamadas = 0;
@@ -19,51 +22,37 @@ void resetAnalise() {
 
 int main() {
     srand(time(NULL));
-
-
-
-    int escolha ;
-    
-    
+    int escolha = 0;
     int modoAnalise = 0; // 0 = normal, 1 = análise
 
-    while (escolha != 3) {
+    escolha = 1;
+    while (escolha != 4) {
         printf("==== BEM-VINDO AO EXPRESSO INTERESTELAR ====\n");
         printf("Deseja:\n");
         printf("1 - Inserir e executar um novo arquivo\n");
         printf("2 - Gerar um mapa teste\n");
-        printf("3 - Sair\n");
-        printf("4 - Executar arquivo em modo de analise\n");
+        printf("3 - Executar arquivo em modo de analise\n");
+        printf("4 - Sair\n");
         printf("Escolha: ");
-    
+        scanf("%d", &escolha);
 
-        //scanf("%d", &escolha);
-
-        escolha = 1;
-
-        if (escolha == 3) {
-            printf("\nEncerrando o programa...\n");
+        if (escolha == 4) {
+            printf("Encerrando o programa...\n");
             break;
         }
 
-        if (escolha == 1 || escolha == 4) {
-            if (escolha == 4) {
-                modoAnalise = 1;
+        if (escolha == 1 || escolha == 3) {
+            if (escolha == 3) {
+                modoAnaliseAtivo = 1; // liga a flag
                 resetAnalise();
-                printf("\n[MODO DE ANALISE ATIVADO]\n");
-            } else {
-                modoAnalise = 0;
-            }
+                printf("[MODO DE ANALISE ATIVADO]\n");
+        } else {
+            modoAnaliseAtivo = 0; //desliga
+        }
 
             char nome[STRING];
             printf("Digite o nome do arquivo: ");
-            
-            
-            strcpy(nome,"arquivo2.txt");
-            //scanf("%s", nome);
-
-
-
+            scanf("%s", nome);
             FILE* arqEntrada = fopen(nome, "r");
             if (arqEntrada == NULL) {
                 printf("Erro ao ler o arquivo.\n");
@@ -93,31 +82,23 @@ int main() {
 
             Percurso percurso;
             inicializarPercurso(&percurso);
-            printf("\n");
-            imprimeMapa(Mapa);
             setMapa(Mapa, &Endurance);
 
-
-            imprimeMapaAdm(Mapa);
-
             int resultado = movimentar(Mapa, &Endurance, &percurso, Nulo);
-
             if (resultado == 1)
                 printf("\nApesar da bravura, a tripulacao falhou em sua jornada.\n");
-
-            printf("\n");
-            imprimirLista(&percurso, pecasTotais);
+            imprimirLista(&percurso);
             printf("\n");
 
-            int verificacao = TodasAsPecasForamColetadas(&percurso, pecasTotais);
+            int verificacao = TodasAsPecasForamColetadas(&percurso);
 
             if (resultado == 0 && verificacao == 0)
                 printf("A tripulacao finalizou sua jornada.\n\n");
 
-            if (modoAnalise == 1) {
-                printf("\n=================== MODO DE ANALISE ===================\n");
+            if (modoAnaliseAtivo == 1) {
+                printf("=================== MODO DE ANALISE ===================\n");
                 printf("Total de chamadas recursivas: %d\n", totalChamadas);
-                printf("Nível maximo de recursao: %d\n", nivelMaximo);
+                printf("Nivel maximo de recursao: %d\n", nivelMaximo);
                 printf("=======================================================\n\n");
             }
 
@@ -127,17 +108,14 @@ int main() {
 
 
             break;
-            
         }
 
         if (escolha == 2) {
             gerarMapa();
         }    
-    
+
+        break;
     }
 
     return 0;
 }
-
-
-// quantidad de peças no printe diferente quando começa 

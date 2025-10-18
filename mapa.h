@@ -18,7 +18,7 @@ typedef enum {
     ASTEROIDE,
     GAMMA,
     REPAIR,
-    TEMPORAL_ANOMALY//Sempre por esse por ultimo
+    TEMPORAL_ANOMALY
 }TipoEfeito; //complicações
 
 typedef struct {

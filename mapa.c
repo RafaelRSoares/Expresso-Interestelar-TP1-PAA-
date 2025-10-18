@@ -69,19 +69,19 @@ void setQuadranteRua(quadrante* celula){
     {
         case  '-':// Não foi implementado caso seja um beco sem saida e nao esteja nas bordas da matriz. Tanto pra esq e dir tem que ter um caminho valido
             celula->Rua.CursoRua[0].Caminho = Oeste;
-            celula->Rua.CursoRua[0].Acesso = TRUE;
+            celula->Rua.CursoRua[0].Acesso = VERDADEIRO;
             celula->Rua.CursoRua[1].Caminho = Leste;
-            celula->Rua.CursoRua[1].Acesso = TRUE;
-            celula->Rua.Peca = FALSE;
-            celula->Rua.Saida = FALSE;
+            celula->Rua.CursoRua[1].Acesso = VERDADEIRO;
+            celula->Rua.Peca = FALSO;
+            celula->Rua.Saida = FALSO;
             break;
         case '|'://Mesmo caso da outra nao pode estar na borda e os dois caminhos sao validos
             celula->Rua.CursoRua[0].Caminho = Norte;
-            celula->Rua.CursoRua[0].Acesso = TRUE;
+            celula->Rua.CursoRua[0].Acesso = VERDADEIRO;
             celula->Rua.CursoRua[1].Caminho = Sul;
-            celula->Rua.CursoRua[1].Acesso = TRUE;
-            celula->Rua.Peca = FALSE;
-            celula->Rua.Saida = FALSE;
+            celula->Rua.CursoRua[1].Acesso = VERDADEIRO;
+            celula->Rua.Peca = FALSO;
+            celula->Rua.Saida = FALSO;
             break;
     }
 
@@ -95,111 +95,111 @@ void setQuadranteCruzamento(quadrante **Mapa, int i, int j){
         Mapa[i][j].Cruzamento.CursoCrusamento[1].Caminho = Sul;
         Mapa[i][j].Cruzamento.CursoCrusamento[2].Caminho = Leste;
         Mapa[i][j].Cruzamento.CursoCrusamento[3].Caminho = Oeste;
-        Mapa[i][j].Cruzamento.Peca = FALSE;
-        Mapa[i][j].Cruzamento.Saida = FALSE;
+        Mapa[i][j].Cruzamento.Peca = FALSO;
+        Mapa[i][j].Cruzamento.Saida = FALSO;
 
         if((i != 0 && i != LINHAS - 1) && (j != 0 && j != COLUNAS - 1)){//Nao for nas bordas
             //Norte
             if (Mapa[i - 1][j].Tipo != '.')
-                Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = TRUE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = VERDADEIRO;
             else
-                Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = FALSE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = FALSO;
             //Sul    
             if (Mapa[i + 1][j].Tipo != '.')
-                Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = TRUE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = VERDADEIRO;
             else
-                Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = FALSE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = FALSO;
             //Leste
             if (Mapa[i][j + 1].Tipo != '.')
-                Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = TRUE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = VERDADEIRO;
             else
-                Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = FALSE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = FALSO;
             //Oeste
             if (Mapa[i][j - 1].Tipo != '.')
-                Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = TRUE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = VERDADEIRO;
             else
-                Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = FALSE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = FALSO;
         }
 
         else if (i == 0){ // se for na borda de cima
             //Norte
-            Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = FALSE;
+            Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = FALSO;
 
             //Sul    
-            Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = TRUE;
+            Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = VERDADEIRO;
             
             //Leste    
             if (j == COLUNAS - 1 || Mapa[i][j + 1].Tipo == '.')
-                Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = FALSE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = FALSO;
             else
-                Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = TRUE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = VERDADEIRO;
 
             //Oeste
             if (j == 0 || Mapa[i][j - 1].Tipo == '.')
-                Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = FALSE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = FALSO;
             else
-                Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = TRUE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = VERDADEIRO;
         }
 
         else if (i == LINHAS - 1){ //se for na borda de baixo
             //Norte
-            Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = TRUE;
+            Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = VERDADEIRO;
 
             //Sul
-            Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = FALSE;           
+            Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = FALSO;           
 
             //Leste
             if (j == COLUNAS - 1 || Mapa[i][j + 1].Tipo == '.')
-                Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = FALSE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = FALSO;
             else
-                Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = TRUE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = VERDADEIRO;
 
             //Oeste
             if (j == 0 || Mapa[i][j - 1].Tipo == '.')
-                Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = FALSE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = FALSO;
             else
-                Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = TRUE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = VERDADEIRO;
         }
 
         else if (j == COLUNAS - 1) { //se for na borda da direita
 
             //Norte
             if (i == 0 || Mapa[i - 1][j].Tipo == '.')
-                Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = FALSE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = FALSO;
             else 
-                Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = TRUE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = VERDADEIRO;
             
             //Sul
             if (i == LINHAS - 1 || Mapa[i + 1][j].Tipo == '.')
-                Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = FALSE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = FALSO;
             else 
-                Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = TRUE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = VERDADEIRO;
             
             //Leste
-            Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = FALSE;
+            Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = FALSO;
             
             //Oeste
-            Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = TRUE;
+            Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = VERDADEIRO;
         }
 
         else if (j == 0){// se for na borda da esquerda
             //Norte
             if (i == 0 || Mapa[i - 1][j].Tipo == '.')
-                Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = FALSE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = FALSO;
             else 
-                Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = TRUE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = VERDADEIRO;
 
             //Sul
             if (i == LINHAS - 1 || Mapa[i + 1][j].Tipo == '.')
-                Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = FALSE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = FALSO;
             else
-                Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = TRUE;
+                Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = VERDADEIRO;
 
             //Leste
-            Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = TRUE;
+            Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = VERDADEIRO;
 
             //Oeste
-            Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = FALSE;
+            Mapa[i][j].Cruzamento.CursoCrusamento[3].Acesso = FALSO;
         }
         break;
     
@@ -213,95 +213,68 @@ void setQuadranteDeInteresse(quadrante **Mapa, int i, int j){
     Mapa[i][j].Interesse.CursoInteresse[2].Caminho = Leste;
     Mapa[i][j].Interesse.CursoInteresse[3].Caminho = Oeste;
 
-    //Tipos de interesse adicionais
+    //Tipos de interesse 
     switch (Mapa[i][j].Tipo)
     {
     case 'F':
-        Mapa[i][j].Interesse.Saida = TRUE;
-        Mapa[i][j].Interesse.Peca = FALSE;
+        Mapa[i][j].Interesse.Saida = VERDADEIRO;
+        Mapa[i][j].Interesse.Peca = FALSO;
         break;
     case 'P':
-        Mapa[i][j].Interesse.Saida = FALSE;
-        Mapa[i][j].Interesse.Peca = TRUE;
+        Mapa[i][j].Interesse.Saida = FALSO;
+        Mapa[i][j].Interesse.Peca = VERDADEIRO;
         break;
     case 'X':
-        Mapa[i][j].Interesse.Saida = FALSE;
-        Mapa[i][j].Interesse.Peca = FALSE;
+        Mapa[i][j].Interesse.Saida = FALSO;
+        Mapa[i][j].Interesse.Peca = FALSO;
         break;
         
-    // //NOVO: buraco de minhoca
-    // case 'W':
-    //     Mapa[i][j].Interesse.Saida = FALSE;
-    //     Mapa[i][j].Interesse.Peca = FALSE;
-    //     Mapa[i][j].Interesse.Efeito = WORMHOLE;
-    //     break;
-
-    // //NOVO: asteroide
-    // case 'A':
-    //     Mapa[i][j].Interesse.Saida = FALSE;
-    //     Mapa[i][j].Interesse.Peca = FALSE;
-    //     Mapa[i][j].Interesse.Efeito = ASTEROIDE;
-    //     break;
-
-    // //NOVO: raio gama
-    // case 'G':
-    //     Mapa[i][j].Interesse.Saida = FALSE;
-    //     Mapa[i][j].Interesse.Peca = FALSE;
-    //     Mapa[i][j].Interesse.Efeito = GAMMA;
-    //     break;
-
-    // //NOVO: estação de reparo
-    // case 'R':
-    //     Mapa[i][j].Interesse.Saida = FALSE;
-    //     Mapa[i][j].Interesse.Peca = FALSE;
-    //     Mapa[i][j].Interesse.Efeito = REPAIR;
-    //     break;
-    }
+   }
     
     Mapa[i][j].Tipo = '#';
 
     /*Sets dos acessos*/
 
     /*Quando nao é um quadrante nas bordas*/
-    Mapa[i][j].Interesse.CursoInteresse[0].Acesso = FALSE;
-    Mapa[i][j].Interesse.CursoInteresse[1].Acesso = FALSE;
-    Mapa[i][j].Interesse.CursoInteresse[2].Acesso = FALSE;
-    Mapa[i][j].Interesse.CursoInteresse[3].Acesso = FALSE;
+    Mapa[i][j].Interesse.CursoInteresse[0].Acesso = FALSO;
+    Mapa[i][j].Interesse.CursoInteresse[1].Acesso = FALSO;
+    Mapa[i][j].Interesse.CursoInteresse[2].Acesso = FALSO;
+    Mapa[i][j].Interesse.CursoInteresse[3].Acesso = FALSO;
 
     if((i != 0 && i != LINHAS - 1) && (j != 0 && j != COLUNAS - 1)){
         //Norte
         if (Mapa[i - 1][j].Tipo != '.' &&  Mapa[i - 1][j].Tipo != '-')
-            Mapa[i][j].Interesse.CursoInteresse[0].Acesso = TRUE;
+            Mapa[i][j].Interesse.CursoInteresse[0].Acesso = VERDADEIRO;
         //Sul
         if (Mapa[i + 1][j].Tipo != '.' &&  Mapa[i + 1][j].Tipo != '-')
-            Mapa[i][j].Interesse.CursoInteresse[1].Acesso = TRUE;
+            Mapa[i][j].Interesse.CursoInteresse[1].Acesso = VERDADEIRO;
         //Leste
         if (Mapa[i][j + 1].Tipo != '.' &&  Mapa[i - 1][j].Tipo != '|')
-            Mapa[i][j].Interesse.CursoInteresse[2].Acesso = TRUE;
+            Mapa[i][j].Interesse.CursoInteresse[2].Acesso = VERDADEIRO;
         //Oeste
         if (Mapa[i][j - 1].Tipo != '.' &&  Mapa[i - 1][j].Tipo != '|')
-            Mapa[i][j].Interesse.CursoInteresse[3].Acesso = TRUE;
+            Mapa[i][j].Interesse.CursoInteresse[3].Acesso = VERDADEIRO;
     return;
     }
 
     /*Quando é um quadrante nas bordas*/
-    Mapa[i][j].Interesse.CursoInteresse[0].Acesso = TRUE;
-    Mapa[i][j].Interesse.CursoInteresse[1].Acesso = TRUE;
-    Mapa[i][j].Interesse.CursoInteresse[2].Acesso = TRUE;
-    Mapa[i][j].Interesse.CursoInteresse[3].Acesso = TRUE;
+    Mapa[i][j].Interesse.CursoInteresse[0].Acesso = VERDADEIRO;
+    Mapa[i][j].Interesse.CursoInteresse[1].Acesso = VERDADEIRO;
+    Mapa[i][j].Interesse.CursoInteresse[2].Acesso = VERDADEIRO;
+    Mapa[i][j].Interesse.CursoInteresse[3].Acesso = VERDADEIRO;
         
     //Norte
     if (i == 0 || (Mapa[i - 1][j].Tipo == '.' || Mapa[i - 1][j].Tipo == '-'))
-        Mapa[i][j].Interesse.CursoInteresse[0].Acesso = FALSE;
+        Mapa[i][j].Interesse.CursoInteresse[0].Acesso = FALSO;
     //Sul
     if (i == LINHAS - 1 || (Mapa[i + 1][j].Tipo == '.' || Mapa[i + 1][j].Tipo == '-'))
-        Mapa[i][j].Interesse.CursoInteresse[1].Acesso = FALSE;
+        Mapa[i][j].Interesse.CursoInteresse[1].Acesso = FALSO;
     //Leste
     if (j == COLUNAS - 1 || (Mapa[i][j + 1].Tipo == '.' || Mapa[i][j + 1].Tipo == '|'))
-        Mapa[i][j].Interesse.CursoInteresse[2].Acesso = FALSE;
+        Mapa[i][j].Interesse.CursoInteresse[2].Acesso = FALSO;
     //Oeste
     if (j == 0 || (Mapa[i][j - 1].Tipo == '.' || Mapa[i][j - 1].Tipo == '|'))
-        Mapa[i][j].Interesse.CursoInteresse[3].Acesso = FALSE;
+        Mapa[i][j].Interesse.CursoInteresse[3].Acesso = FALSO;
     
 }
 
@@ -316,35 +289,35 @@ void setQuadranteEspecial(quadrante **Mapa, int i, int j){
        
     //buraco de minhoca
     case 'W':
-        Mapa[i][j].Especial.Saida = FALSE;
-        Mapa[i][j].Especial.Peca = FALSE;
+        Mapa[i][j].Especial.Saida = FALSO;
+        Mapa[i][j].Especial.Peca = FALSO;
         Mapa[i][j].Especial.Efeito = WORMHOLE;
         break;
 
     //asteroide
     case 'A':
-        Mapa[i][j].Especial.Saida = FALSE;
-        Mapa[i][j].Especial.Peca = FALSE;
+        Mapa[i][j].Especial.Saida = FALSO;
+        Mapa[i][j].Especial.Peca = FALSO;
         Mapa[i][j].Especial.Efeito = ASTEROIDE;
         break;
 
     //raio gama
     case 'G':
-        Mapa[i][j].Especial.Saida = FALSE;
-        Mapa[i][j].Especial.Peca = FALSE;
+        Mapa[i][j].Especial.Saida = FALSO;
+        Mapa[i][j].Especial.Peca = FALSO;
         Mapa[i][j].Especial.Efeito = GAMMA;
         break;
 
     //estação de reparo
     case 'R':
-        Mapa[i][j].Especial.Saida = FALSE;
-        Mapa[i][j].Especial.Peca = FALSE;
+        Mapa[i][j].Especial.Saida = FALSO;
+        Mapa[i][j].Especial.Peca = FALSO;
         Mapa[i][j].Especial.Efeito = REPAIR;
         break;
 
     case 'T':
-        Mapa[i][j].Especial.Saida = FALSE;
-        Mapa[i][j].Especial.Peca = FALSE;
+        Mapa[i][j].Especial.Saida = FALSO;
+        Mapa[i][j].Especial.Peca = FALSO;
         Mapa[i][j].Especial.Efeito = TEMPORAL_ANOMALY;
         break;
     }
@@ -354,48 +327,47 @@ void setQuadranteEspecial(quadrante **Mapa, int i, int j){
     /*Sets dos acessos*/
 
     /*Quando nao é um quadrante nas bordas*/
-    Mapa[i][j].Especial.CursoEspecial[0].Acesso = FALSE;
-    Mapa[i][j].Especial.CursoEspecial[1].Acesso = FALSE;
-    Mapa[i][j].Especial.CursoEspecial[2].Acesso = FALSE;
-    Mapa[i][j].Especial.CursoEspecial[3].Acesso = FALSE;
+    Mapa[i][j].Especial.CursoEspecial[0].Acesso = FALSO;
+    Mapa[i][j].Especial.CursoEspecial[1].Acesso = FALSO;
+    Mapa[i][j].Especial.CursoEspecial[2].Acesso = FALSO;
+    Mapa[i][j].Especial.CursoEspecial[3].Acesso = FALSO;
 
     if((i != 0 && i != LINHAS - 1) && (j != 0 && j != COLUNAS - 1)){
         //Norte
         if (Mapa[i - 1][j].Tipo != '.' &&  Mapa[i - 1][j].Tipo != '-')
-            Mapa[i][j].Especial.CursoEspecial[0].Acesso = TRUE;
+            Mapa[i][j].Especial.CursoEspecial[0].Acesso = VERDADEIRO;
         //Sul
         if (Mapa[i + 1][j].Tipo != '.' &&  Mapa[i + 1][j].Tipo != '-')
-            Mapa[i][j].Especial.CursoEspecial[1].Acesso = TRUE;
+            Mapa[i][j].Especial.CursoEspecial[1].Acesso = VERDADEIRO;
         //Leste
         if (Mapa[i][j + 1].Tipo != '.' &&  Mapa[i - 1][j].Tipo != '|')
-            Mapa[i][j].Especial.CursoEspecial[2].Acesso = TRUE;
+            Mapa[i][j].Especial.CursoEspecial[2].Acesso = VERDADEIRO;
         //Oeste
         if (Mapa[i][j - 1].Tipo != '.' &&  Mapa[i - 1][j].Tipo != '|')
-            Mapa[i][j].Especial.CursoEspecial[3].Acesso = TRUE;
+            Mapa[i][j].Especial.CursoEspecial[3].Acesso = VERDADEIRO;
     return;
     }
 
     /*Quando é um quadrante nas bordas*/
-    Mapa[i][j].Especial.CursoEspecial[0].Acesso = TRUE;
-    Mapa[i][j].Especial.CursoEspecial[1].Acesso = TRUE;
-    Mapa[i][j].Especial.CursoEspecial[2].Acesso = TRUE;
-    Mapa[i][j].Especial.CursoEspecial[3].Acesso = TRUE;
+    Mapa[i][j].Especial.CursoEspecial[0].Acesso = VERDADEIRO;
+    Mapa[i][j].Especial.CursoEspecial[1].Acesso = VERDADEIRO;
+    Mapa[i][j].Especial.CursoEspecial[2].Acesso = VERDADEIRO;
+    Mapa[i][j].Especial.CursoEspecial[3].Acesso = VERDADEIRO;
         
     //Norte
     if (i == 0 || (Mapa[i - 1][j].Tipo == '.' || Mapa[i - 1][j].Tipo == '-'))
-        Mapa[i][j].Especial.CursoEspecial[0].Acesso = FALSE;
+        Mapa[i][j].Especial.CursoEspecial[0].Acesso = FALSO;
     //Sul
     if (i == LINHAS - 1 || (Mapa[i + 1][j].Tipo == '.' || Mapa[i + 1][j].Tipo == '-'))
-        Mapa[i][j].Especial.CursoEspecial[1].Acesso = FALSE;
+        Mapa[i][j].Especial.CursoEspecial[1].Acesso = FALSO;
     //Leste
     if (j == COLUNAS - 1 || (Mapa[i][j + 1].Tipo == '.' || Mapa[i][j + 1].Tipo == '|'))
-        Mapa[i][j].Especial.CursoEspecial[2].Acesso = FALSE;
+        Mapa[i][j].Especial.CursoEspecial[2].Acesso = FALSO;
     //Oeste
     if (j == 0 || (Mapa[i][j - 1].Tipo == '.' || Mapa[i][j - 1].Tipo == '|'))
-        Mapa[i][j].Especial.CursoEspecial[3].Acesso = FALSE;
+        Mapa[i][j].Especial.CursoEspecial[3].Acesso = FALSO;
 
 }
-
 
 void setMapa(quadrante **Mapa,nave* Nave){
     for (int i = 0; i < LINHAS; i++){
@@ -412,7 +384,7 @@ void setMapa(quadrante **Mapa,nave* Nave){
             case 'F'://Saida
                 setQuadranteDeInteresse(Mapa,i,j);
                 break;
-            case 'W'://buracp de minhoca
+            case 'W'://buraco de minhoca
                 setQuadranteEspecial(Mapa,i,j);
                 break;
             case 'A'://asteroide
@@ -427,16 +399,16 @@ void setMapa(quadrante **Mapa,nave* Nave){
             case 'T'://Anomalia temporal
                 setQuadranteEspecial(Mapa,i,j);    
                 break;
-            case '-':
+            case '-'://Rua
                 setQuadranteRua(&Mapa[i][j]);
                 break;
-            case '|':
+            case '|'://Ruya
                 setQuadranteRua(&Mapa[i][j]);
                 break;
-            case '+':
+            case '+'://Cruzamento
                 setQuadranteCruzamento(Mapa,i,j);
                 break;
-            default:
+            default://Nulo
                 setQuadranteNula(&Mapa[i][j]);
                 break;
             }

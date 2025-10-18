@@ -1,16 +1,16 @@
 #ifndef NAVE_H_
 #define NAVE_H_
 
-#define TRUE 1
-#define FALSE 0
+#define VERDADEIRO 1
+#define FALSO 0
 #define QUANTIDADECAMINHOSRUA 2
 #define QUANTIDADECAMINHOSCRUZAMENTO 4
 #define QUANTIDADECAMINHOSINTERESSE 4
 #define QUANTIDADECAMINHOSESPECIAL 4
 
 
-int LINHAS;
-int COLUNAS;
+extern int LINHAS;
+extern int COLUNAS;
 
 typedef struct {
     int Durabilidade;
