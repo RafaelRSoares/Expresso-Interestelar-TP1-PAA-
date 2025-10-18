@@ -4,6 +4,7 @@
 
 #include "mapa.h"
 
+
 void imprimeMapa(quadrante **Mapa){
     for (int i = 0; i < LINHAS; i++){
         for (int j = 0; j < COLUNAS; j++)
@@ -43,6 +44,13 @@ void imprimeMapaAdm(quadrante **Mapa){
                 for (int k = 0; k < QUANTIDADECAMINHOSINTERESSE; k++)
                     printf("Dir-[%d] Ace-[%d]/",Mapa[i][j].Interesse.CursoInteresse[k].Caminho,Mapa[i][j].Interesse.CursoInteresse[k].Acesso);
                 printf("\n");
+            }
+            //Especial
+            else if (Mapa[i][j].Tipo == 'E'){
+                printf("Quadrante:{%d}{%d}-Tipo:%c Peca:[%d]-Saida:[%d]-Efeito:[%d]/ ",i,j,Mapa[i][j].Tipo,Mapa[i][j].Especial.Peca,Mapa[i][j].Especial.Saida,Mapa[i][j].Especial.Efeito);  
+                for (int k = 0; k < QUANTIDADECAMINHOSESPECIAL; k++)
+                        printf("Dir-[%d] Ace-[%d]/",Mapa[i][j].Especial.CursoEspecial[k].Caminho,Mapa[i][j].Especial.CursoEspecial[k].Acesso);
+                    printf("\n");
             }
             //Nulo
             else
@@ -154,14 +162,15 @@ void setQuadranteCruzamento(quadrante **Mapa, int i, int j){
         }
 
         else if (j == COLUNAS - 1) { //se for na borda da direita
+
             //Norte
-            if (i == 0 || Mapa[i - 1][j].Tipo == '0')
+            if (i == 0 || Mapa[i - 1][j].Tipo == '.')
                 Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = FALSO;
             else 
                 Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = VERDADEIRO;
             
             //Sul
-            if (i == LINHAS - 1 || Mapa[i + 1][j].Tipo == '0')
+            if (i == LINHAS - 1 || Mapa[i + 1][j].Tipo == '.')
                 Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = FALSO;
             else 
                 Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = VERDADEIRO;
@@ -175,17 +184,16 @@ void setQuadranteCruzamento(quadrante **Mapa, int i, int j){
 
         else if (j == 0){// se for na borda da esquerda
             //Norte
-            if (i == 0 || Mapa[i - 1][j].Tipo == '0')
+            if (i == 0 || Mapa[i - 1][j].Tipo == '.')
                 Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = FALSO;
             else 
                 Mapa[i][j].Cruzamento.CursoCrusamento[0].Acesso = VERDADEIRO;
 
             //Sul
-            if (i == LINHAS - 1 || Mapa[i - 1][j].Tipo == '.')
+            if (i == LINHAS - 1 || Mapa[i + 1][j].Tipo == '.')
                 Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = FALSO;
             else
                 Mapa[i][j].Cruzamento.CursoCrusamento[1].Acesso = VERDADEIRO;
-
 
             //Leste
             Mapa[i][j].Cruzamento.CursoCrusamento[2].Acesso = VERDADEIRO;
@@ -205,7 +213,7 @@ void setQuadranteDeInteresse(quadrante **Mapa, int i, int j){
     Mapa[i][j].Interesse.CursoInteresse[2].Caminho = Leste;
     Mapa[i][j].Interesse.CursoInteresse[3].Caminho = Oeste;
 
-    //Tipos de interesse adicionais
+    //Tipos de interesse 
     switch (Mapa[i][j].Tipo)
     {
     case 'F':
@@ -221,34 +229,7 @@ void setQuadranteDeInteresse(quadrante **Mapa, int i, int j){
         Mapa[i][j].Interesse.Peca = FALSO;
         break;
         
-    //NOVO: buraco de minhoca
-    case 'W':
-        Mapa[i][j].Interesse.Saida = FALSO;
-        Mapa[i][j].Interesse.Peca = FALSO;
-        Mapa[i][j].Interesse.Efeito = WORMHOLE;
-        break;
-
-    //NOVO: asteroide
-    case 'A':
-        Mapa[i][j].Interesse.Saida = FALSO;
-        Mapa[i][j].Interesse.Peca = FALSO;
-        Mapa[i][j].Interesse.Efeito = ASTEROIDE;
-        break;
-
-    //NOVO: raio gama
-    case 'G':
-        Mapa[i][j].Interesse.Saida = FALSO;
-        Mapa[i][j].Interesse.Peca = FALSO;
-        Mapa[i][j].Interesse.Efeito = GAMMA;
-        break;
-
-    //NOVO: estação de reparo
-    case 'R':
-        Mapa[i][j].Interesse.Saida = FALSO;
-        Mapa[i][j].Interesse.Peca = FALSO;
-        Mapa[i][j].Interesse.Efeito = REPAIR;
-        break;
-    }
+   }
     
     Mapa[i][j].Tipo = '#';
 
@@ -297,43 +278,137 @@ void setQuadranteDeInteresse(quadrante **Mapa, int i, int j){
     
 }
 
+void setQuadranteEspecial(quadrante **Mapa, int i, int j){
+    Mapa[i][j].Especial.CursoEspecial[0].Caminho = Norte;
+    Mapa[i][j].Especial.CursoEspecial[1].Caminho = Sul;
+    Mapa[i][j].Especial.CursoEspecial[2].Caminho = Leste;
+    Mapa[i][j].Especial.CursoEspecial[3].Caminho = Oeste;
+
+    switch (Mapa[i][j].Tipo)
+    {
+       
+    //buraco de minhoca
+    case 'W':
+        Mapa[i][j].Especial.Saida = FALSO;
+        Mapa[i][j].Especial.Peca = FALSO;
+        Mapa[i][j].Especial.Efeito = WORMHOLE;
+        break;
+
+    //asteroide
+    case 'A':
+        Mapa[i][j].Especial.Saida = FALSO;
+        Mapa[i][j].Especial.Peca = FALSO;
+        Mapa[i][j].Especial.Efeito = ASTEROIDE;
+        break;
+
+    //raio gama
+    case 'G':
+        Mapa[i][j].Especial.Saida = FALSO;
+        Mapa[i][j].Especial.Peca = FALSO;
+        Mapa[i][j].Especial.Efeito = GAMMA;
+        break;
+
+    //estação de reparo
+    case 'R':
+        Mapa[i][j].Especial.Saida = FALSO;
+        Mapa[i][j].Especial.Peca = FALSO;
+        Mapa[i][j].Especial.Efeito = REPAIR;
+        break;
+
+    case 'T':
+        Mapa[i][j].Especial.Saida = FALSO;
+        Mapa[i][j].Especial.Peca = FALSO;
+        Mapa[i][j].Especial.Efeito = TEMPORAL_ANOMALY;
+        break;
+    }
+    
+    Mapa[i][j].Tipo = 'E';
+
+    /*Sets dos acessos*/
+
+    /*Quando nao é um quadrante nas bordas*/
+    Mapa[i][j].Especial.CursoEspecial[0].Acesso = FALSO;
+    Mapa[i][j].Especial.CursoEspecial[1].Acesso = FALSO;
+    Mapa[i][j].Especial.CursoEspecial[2].Acesso = FALSO;
+    Mapa[i][j].Especial.CursoEspecial[3].Acesso = FALSO;
+
+    if((i != 0 && i != LINHAS - 1) && (j != 0 && j != COLUNAS - 1)){
+        //Norte
+        if (Mapa[i - 1][j].Tipo != '.' &&  Mapa[i - 1][j].Tipo != '-')
+            Mapa[i][j].Especial.CursoEspecial[0].Acesso = VERDADEIRO;
+        //Sul
+        if (Mapa[i + 1][j].Tipo != '.' &&  Mapa[i + 1][j].Tipo != '-')
+            Mapa[i][j].Especial.CursoEspecial[1].Acesso = VERDADEIRO;
+        //Leste
+        if (Mapa[i][j + 1].Tipo != '.' &&  Mapa[i - 1][j].Tipo != '|')
+            Mapa[i][j].Especial.CursoEspecial[2].Acesso = VERDADEIRO;
+        //Oeste
+        if (Mapa[i][j - 1].Tipo != '.' &&  Mapa[i - 1][j].Tipo != '|')
+            Mapa[i][j].Especial.CursoEspecial[3].Acesso = VERDADEIRO;
+    return;
+    }
+
+    /*Quando é um quadrante nas bordas*/
+    Mapa[i][j].Especial.CursoEspecial[0].Acesso = VERDADEIRO;
+    Mapa[i][j].Especial.CursoEspecial[1].Acesso = VERDADEIRO;
+    Mapa[i][j].Especial.CursoEspecial[2].Acesso = VERDADEIRO;
+    Mapa[i][j].Especial.CursoEspecial[3].Acesso = VERDADEIRO;
+        
+    //Norte
+    if (i == 0 || (Mapa[i - 1][j].Tipo == '.' || Mapa[i - 1][j].Tipo == '-'))
+        Mapa[i][j].Especial.CursoEspecial[0].Acesso = FALSO;
+    //Sul
+    if (i == LINHAS - 1 || (Mapa[i + 1][j].Tipo == '.' || Mapa[i + 1][j].Tipo == '-'))
+        Mapa[i][j].Especial.CursoEspecial[1].Acesso = FALSO;
+    //Leste
+    if (j == COLUNAS - 1 || (Mapa[i][j + 1].Tipo == '.' || Mapa[i][j + 1].Tipo == '|'))
+        Mapa[i][j].Especial.CursoEspecial[2].Acesso = FALSO;
+    //Oeste
+    if (j == 0 || (Mapa[i][j - 1].Tipo == '.' || Mapa[i][j - 1].Tipo == '|'))
+        Mapa[i][j].Especial.CursoEspecial[3].Acesso = FALSO;
+
+}
+
 void setMapa(quadrante **Mapa,nave* Nave){
     for (int i = 0; i < LINHAS; i++){
         for (int j = 0; j < COLUNAS; j++){
             switch (Mapa[i][j].Tipo)
             {
-            case 'X':
+            case 'X'://Começo
                 setQuadranteDeInteresse(Mapa,i,j);
                 setNave(Nave,i,j);    
                 break;            
-            case 'P':
+            case 'P'://Peça
                 setQuadranteDeInteresse(Mapa,i,j);
                 break;
-            case 'F':
+            case 'F'://Saida
                 setQuadranteDeInteresse(Mapa,i,j);
                 break;
-            case 'W'://buracp de minhoca
-                setQuadranteDeInteresse(Mapa,i,j);
+            case 'W'://buraco de minhoca
+                setQuadranteEspecial(Mapa,i,j);
                 break;
             case 'A'://asteroide
-                setQuadranteDeInteresse(Mapa,i,j);
+                setQuadranteEspecial(Mapa,i,j);
                 break;
             case 'G'://raio gamma
-                setQuadranteDeInteresse(Mapa,i,j);
+                setQuadranteEspecial(Mapa,i,j);
                 break;
             case 'R'://reparo
-                setQuadranteDeInteresse(Mapa,i,j);
+                setQuadranteEspecial(Mapa,i,j);    
                 break;
-            case '-':
+            case 'T'://Anomalia temporal
+                setQuadranteEspecial(Mapa,i,j);    
+                break;
+            case '-'://Rua
                 setQuadranteRua(&Mapa[i][j]);
                 break;
-            case '|':
+            case '|'://Ruya
                 setQuadranteRua(&Mapa[i][j]);
                 break;
-            case '+':
+            case '+'://Cruzamento
                 setQuadranteCruzamento(Mapa,i,j);
                 break;
-            default:
+            default://Nulo
                 setQuadranteNula(&Mapa[i][j]);
                 break;
             }
@@ -352,6 +427,8 @@ int verificaQuadrante(quadrante* celula){
         return 2;    
     case '#':
         return 3;
+    case 'E':
+        return 4;
     default:
         return -1;
         break;

@@ -21,5 +21,6 @@ int percorreCruzamento(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* 
 
 int percorreInteresse(quadrante **Mapa, quadrante* celula,nave* Nave,Percurso* lista,direcao DirecaoAnterior);
 
+int percorreEventoEspecial(quadrante **Mapa, quadrante* celula, nave* Nave, Percurso* lista, direcao DirecaoAnterior);
 
 #endif

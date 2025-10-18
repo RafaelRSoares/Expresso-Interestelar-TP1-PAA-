@@ -448,7 +448,7 @@ void ajustarCruzamentos(int altura, int largura, char mapa[altura][largura]) {
 
             int temVertical = 0, temHorizontal = 0;
 
-            if (i > 0 && (mapa[i - 1][j] == '|' || mapa[i - 1][j] == '+' || mapa[i - 1][j] == 'X' || mapa[i - 1][j] == 'F' || mapa[i - 1][j] == 'W' || mapa[i - 1][j] == 'A' || mapa[i - 1][j] == 'G' || mapa[i - 1][j] == 'R'))
+            if (i > 0 && (mapa[i - 1][j] == '|' || mapa[i - 1][j] == '+' || mapa[i - 1][j] == 'X' || mapa[i - 1][j] == 'F' || mapa[i - 1][j] == 'P' || mapa[i - 1][j] == 'W' || mapa[i - 1][j] == 'A' || mapa[i - 1][j] == 'G' || mapa[i - 1][j] == 'R'))
                 temVertical = 1;
             if (i < altura - 1 && (mapa[i + 1][j] == '|' || mapa[i + 1][j] == '+' || mapa[i + 1][j] == 'X' || mapa[i + 1][j] == 'F' || mapa[i + 1][j] == 'P' || mapa[i + 1][j] == 'W' || mapa[i + 1][j] == 'A' || mapa[i + 1][j] == 'G' || mapa[i + 1][j] == 'R'))
                 temVertical = 1;
@@ -465,7 +465,6 @@ void ajustarCruzamentos(int altura, int largura, char mapa[altura][largura]) {
         }
     }
 }
-
 
 int gerarNumeroAleatorio(int limite){
     return rand() % limite;
