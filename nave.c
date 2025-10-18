@@ -14,12 +14,12 @@ void setNave(nave* Nave,int Linha,int Coluna){
     Nave->PossicaoLinha = Linha;
     Nave->PossicaoColuna = Coluna;
     Nave->QuantidadePeca = 0;
-    Nave->Consertado = FALSE;
+    Nave->Consertado = FALSO;
 }
 
 int verificaNave(nave* Nave){
     if (Nave->QuantidadePeca >= 4)
-        Nave->Consertado = TRUE;
+        Nave->Consertado = VERDADEIRO;
     if (Nave->Durabilidade < 1)
         return 0;
     return 1;
