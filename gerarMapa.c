@@ -149,6 +149,8 @@ void gerarMapa(){
     else{
         printf("Erro ao abrir o arquivo");
     }
+
+    printf("\nO nome do arquivo gerado eh: '%s' Para usa-lo, digite '%s' ao escolher a primeira opcao do menu!\n\n", nomeArquivo, nomeArquivo);
 }
 
 char* gerarMapaUI(int escolha, int escolha3){
@@ -273,6 +275,9 @@ char* gerarMapaUI(int escolha, int escolha3){
     else{
         printf("Erro ao abrir o arquivo");
     }
+
+    printf("\nO nome do arquivo gerado eh: '%s' Para usa-lo, digite '%s' ao escolher a primeira opcao do menu!\n\n", nomeArquivo, nomeArquivo);
+
     return nomeArquivo;
 }
 
@@ -373,7 +378,11 @@ char* gerarMapaUI2(int altura,  int largura, int pecas, int durabilidade, int mo
     else{
         printf("Erro ao abrir o arquivo");
     }
+
+    printf("\nO nome do arquivo gerado eh: '%s' Para usa-lo, digite '%s' ao escolher a primeira opcao do menu!\n\n", nomeArquivo, nomeArquivo);
+
     return nomeArquivo;
+
 }
 
 void gerarCaminhos(int altura, int largura, char mapa[altura][largura], int xInicial, int yInicial, int xFinal, int yFinal) {
