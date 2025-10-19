@@ -107,14 +107,12 @@ int main() {
             for (int i = 0; i < LINHAS; i++)
                 free(Mapa[i]);
             free(Mapa);
-            break;
         }
 
         if (escolha == 2) {
             gerarMapa();
         }    
 
-        break;
     }
 
     return 0;
