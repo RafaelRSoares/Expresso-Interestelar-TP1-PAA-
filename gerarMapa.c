@@ -12,7 +12,7 @@ void gerarMapa(){
     int altura, largura, pecas, durabilidade, custo, aumento, contadorPecas=0, linha, coluna, xInicial, yInicial, xFinal, yFinal, escolha, escolha2, escolha3;
     if(file){
         printf("==== BEM VINDO A GERACAO DE MAPAS INTERESTELAR ====\n");
-        printf("Gostaria de gerar o arquivo com base em dificuldades com parametros pre definidos ou configurar todos os parametros?\n");
+        printf("Gostaria de gerar o arquivo escolhendo apenas a dificuldade do mapa ou gostaria de montar o mapa manualmente?\n");
         printf("1 - Dificuldades\n2 - Configuracao Total\nEscolha: ");
         scanf("%d", &escolha);
         printf("Gostaria de gerar as complicacoes adicionais (correspondem a 10%% do mapa)?\n1 - Sim\n2 - Nao\nEscolha: ");
