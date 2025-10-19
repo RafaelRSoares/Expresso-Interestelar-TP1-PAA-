@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "gerarMapa.h"
 #include "backtracking.h"
 #define STRING 20
@@ -20,9 +21,11 @@ void resetAnalise() {
 }
 
 int main() {
+    srand(time(NULL));
     int escolha = 0;
     int modoAnalise = 0; // 0 = normal, 1 = análise
 
+    escolha = 1;
     while (escolha != 4) {
         printf("==== BEM-VINDO AO EXPRESSO INTERESTELAR ====\n");
         printf("Deseja:\n");
@@ -50,7 +53,6 @@ int main() {
             char nome[STRING];
             printf("Digite o nome do arquivo: ");
             scanf("%s", nome);
-
             FILE* arqEntrada = fopen(nome, "r");
             if (arqEntrada == NULL) {
                 printf("Erro ao ler o arquivo.\n");
@@ -85,8 +87,9 @@ int main() {
             int resultado = movimentar(Mapa, &Endurance, &percurso, Nulo);
             if (resultado == 1)
                 printf("\nApesar da bravura, a tripulacao falhou em sua jornada.\n");
-;
-            imprimirLista(&percurso);
+            else 
+                imprimirLista(&percurso);
+            
             printf("\n");
 
             int verificacao = TodasAsPecasForamColetadas(&percurso);
@@ -104,11 +107,14 @@ int main() {
             for (int i = 0; i < LINHAS; i++)
                 free(Mapa[i]);
             free(Mapa);
+            break;
         }
 
         if (escolha == 2) {
             gerarMapa();
-        }
+        }    
+
+        break;
     }
 
     return 0;

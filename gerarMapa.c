@@ -12,7 +12,7 @@ void gerarMapa(){
     int altura, largura, pecas, durabilidade, custo, aumento, contadorPecas=0, linha, coluna, xInicial, yInicial, xFinal, yFinal, escolha, escolha2, escolha3;
     if(file){
         printf("==== BEM VINDO A GERACAO DE MAPAS INTERESTELAR ====\n");
-        printf("Gostaria de gerar o arquivo com base em dificuldades com parametros pre definidos ou configurar todos os parametros?\n");
+        printf("Gostaria de gerar o arquivo escolhendo apenas a dificuldade do mapa ou gostaria de montar o mapa manualmente?\n");
         printf("1 - Dificuldades\n2 - Configuracao Total\nEscolha: ");
         scanf("%d", &escolha);
         printf("Gostaria de gerar as complicacoes adicionais (correspondem a 10%% do mapa)?\n1 - Sim\n2 - Nao\nEscolha: ");
@@ -448,7 +448,7 @@ void ajustarCruzamentos(int altura, int largura, char mapa[altura][largura]) {
 
             int temVertical = 0, temHorizontal = 0;
 
-            if (i > 0 && (mapa[i - 1][j] == '|' || mapa[i - 1][j] == '+' || mapa[i - 1][j] == 'X' || mapa[i - 1][j] == 'F' || mapa[i - 1][j] == 'W' || mapa[i - 1][j] == 'A' || mapa[i - 1][j] == 'G' || mapa[i - 1][j] == 'R'))
+            if (i > 0 && (mapa[i - 1][j] == '|' || mapa[i - 1][j] == '+' || mapa[i - 1][j] == 'X' || mapa[i - 1][j] == 'F' || mapa[i - 1][j] == 'P' || mapa[i - 1][j] == 'W' || mapa[i - 1][j] == 'A' || mapa[i - 1][j] == 'G' || mapa[i - 1][j] == 'R'))
                 temVertical = 1;
             if (i < altura - 1 && (mapa[i + 1][j] == '|' || mapa[i + 1][j] == '+' || mapa[i + 1][j] == 'X' || mapa[i + 1][j] == 'F' || mapa[i + 1][j] == 'P' || mapa[i + 1][j] == 'W' || mapa[i + 1][j] == 'A' || mapa[i + 1][j] == 'G' || mapa[i + 1][j] == 'R'))
                 temVertical = 1;
@@ -465,7 +465,6 @@ void ajustarCruzamentos(int altura, int largura, char mapa[altura][largura]) {
         }
     }
 }
-
 
 int gerarNumeroAleatorio(int limite){
     return rand() % limite;
