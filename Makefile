@@ -9,4 +9,3 @@ interface-WIN: UI.c mapa.c nave.c lista.c backtracking.c gerarMapa.c
 
 run:
 	./Endurance
-
